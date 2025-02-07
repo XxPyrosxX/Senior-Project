@@ -7,6 +7,10 @@ const HomePage = ({}) => {
       <Text style={styles.logoText}>
         KITCHEN<Text style={styles.syncText}>Sync</Text>
       </Text>
+      <Image
+      source={require('../../assets/images/favicon.png')}
+      style={{ width: 200, height: 200 }}
+    />
     </View>
     <View style={styles.formContainer}>
       <TextInput style={styles.input} placeholder="Username" placeholderTextColor="#999" />
@@ -32,8 +36,8 @@ const HomePage = ({}) => {
           />
         </TouchableOpacity>
       </View>
-      <TouchableOpacity>
-        <Text style={styles.signupText}>Sign up</Text>
+      <TouchableOpacity style={styles.signupButton}>
+        <Text style={styles.signupButtonText}>Sign up</Text>
       </TouchableOpacity>
     </View>
   </View>
@@ -108,6 +112,18 @@ socialIcon: {
 signupText: {
   textAlign: "center",
   color: "#8B0000",
+  fontWeight: "bold",
+},
+signupButton: {
+  backgroundColor: "#FFA500",
+  borderRadius: 25,
+  paddingVertical: 15,
+  alignItems: "center",
+  marginTop: 10, 
+},
+signupButtonText: {
+  color: "#FFF",
+  fontSize: 16,
   fontWeight: "bold",
 },
 });
