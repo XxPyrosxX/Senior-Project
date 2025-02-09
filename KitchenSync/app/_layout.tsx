@@ -1,17 +1,17 @@
-import { Stack, Tabs } from "expo-router";
+import { Tabs } from "expo-router";
 import { Image } from "react-native";
 
 export default function RootLayout() {
   return (
     <Tabs
       screenOptions={{
+        headerShown: false,
         // Customize the overall tab bar style
         tabBarStyle: {
           backgroundColor: "#228B22", // Green background color
           borderTopWidth: 0,          // Remove top border
-          height: 70,                 // Adjust height for better spacing
+          height: 80,                 // Adjust height for better spacing
         },
-
         tabBarActiveTintColor: "#FFF",   // Active icon color (white)
         tabBarInactiveTintColor: "#FFF", // Inactive icon color (white)
         tabBarLabelStyle: {
@@ -29,7 +29,7 @@ export default function RootLayout() {
               source={{
                 uri: "https://img.icons8.com/ios-filled/50/FFFFFF/home.png", // Home icon URI
               }}
-              style={{ width: 30, height: 30, marginBottom: -10}}
+              style={{ width: 30, height: 30, marginBottom: -20 }}
             />
           ),
         }}
@@ -45,7 +45,7 @@ export default function RootLayout() {
               source={{
                 uri: "https://img.icons8.com/ios-filled/50/FFFFFF/camera.png", // Camera icon URI
               }}
-              style={{ width: 30, height: 30, marginBottom: -10}}
+              style={{ width: 30, height: 30, marginBottom: -20 }}
             />
           ),
         }}
@@ -61,12 +61,14 @@ export default function RootLayout() {
               source={{
                 uri: "https://img.icons8.com/ios-filled/50/FFFFFF/settings.png", // Settings icon URI
               }}
-              style={{ width: 30, height: 30, marginBottom: -10}}
+              style={{ width: 30, height: 30, marginBottom: -20 }}
             />
           ),
         }}
       />
+
       <Tabs.Screen name="index" options={{ href: null }} />
     </Tabs>
   );
+
 }
