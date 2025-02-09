@@ -1,26 +1,9 @@
-// app/pages/ReceiptCamera.tsx
-import {
-  CameraType,
-  CameraView,
-  useCameraPermissions,
-} from "expo-camera";
+import { CameraType, CameraView, useCameraPermissions} from "expo-camera";
 import { useRef, useState } from "react";
-import {
-  Button,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
-// Import Image from expo-image (ensure you have installed expo-image)
+import { Button, Pressable, StyleSheet, Text, View, } from "react-native";
 import { Image } from "expo-image";
 import { FontAwesome6 } from "@expo/vector-icons";
-import {
-  PinchGestureHandler,
-  PinchGestureHandlerEventPayload,
-  State,
-  GestureHandlerRootView,
-} from "react-native-gesture-handler";
+import { PinchGestureHandler, PinchGestureHandlerEventPayload, State, GestureHandlerRootView} from "react-native-gesture-handler";
 
 export default function ReceiptCamera() {
   // Request camera permissions
