@@ -4,7 +4,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ImageBackgr
 const pantryItems = [
     { id: 1, title: "Apples", image: require("../../assets/images/apple.png") },
     { id: 2, title: "Bananas", image: require("../../assets/images/banana.png") },
-    { id: 3, title: "PeanutButter", image: require("../../assets/images/peanutbutter.png") },
+    { id: 3, title: "Peanut Butter", image: require("../../assets/images/peanutbutter.png") },
     { id: 4, title: "Milk", image: require("../../assets/images/milk_carton.png") },
 ];
 

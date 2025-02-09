@@ -49,27 +49,7 @@ const SettingsPage = ({}) => {
           <Text style={styles.optionText}>About</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.navbar}>
-        <TouchableOpacity>
-          <Image
-            source={{ uri: "https://img.icons8.com/ios-filled/50/home.png" }}
-            style={styles.navIcon}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Image
-            source={{ uri: "https://img.icons8.com/ios-filled/50/camera.png" }}
-            style={styles.navIcon}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Image
-            source={{ uri: "https://img.icons8.com/ios-filled/50/settings.png" }}
-            style={styles.navIcon}
-          />
-        </TouchableOpacity>
       </View>
-    </View>
   );
 };
 
@@ -104,20 +84,6 @@ const styles = StyleSheet.create({
   optionText: {
     fontSize: 18,
     color: "#8B0000",
-  },
-  navbar: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
-    height: 70,
-    backgroundColor: "#228B22",
-    position: "absolute",
-    bottom: 0,
-    width: "100%",
-  },
-  navIcon: {
-    width: 30,
-    height: 30,
   },
 });
 
