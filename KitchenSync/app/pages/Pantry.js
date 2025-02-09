@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     color: "#8B0000",
+    marginTop: 55,
     },
 
     syncText: {
