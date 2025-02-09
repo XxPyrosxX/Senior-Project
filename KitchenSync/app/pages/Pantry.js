@@ -15,7 +15,7 @@ const Pantry = () => {
                 source={require('../../assets/images/Pantry_bg.png')}
                 style={styles.backgroundImage}
             />
-        <ScrollView>
+        <View>
           <View style={styles.container}>
             <View style={styles.logoContainer}>
                 <Text style={styles.logoText}>
@@ -23,6 +23,8 @@ const Pantry = () => {
                 </Text>
             </View>
         </View>
+        </View>
+        <ScrollView>
             <View style={styles.gridContainer}>
             {pantryItems.map((item, index) => (
                 <View key={item.id} style={styles.itemContainer}>
