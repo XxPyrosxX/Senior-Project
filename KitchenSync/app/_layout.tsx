@@ -21,9 +21,9 @@ export default function RootLayout() {
     >
       {/* Home Screen */}
       <Tabs.Screen
-        name="pages/HomePage"
+        name="pages/Dashboard"
         options={{
-          title: "Home",
+          title: "Dashboard",
           tabBarIcon: ({ color, size }) => (
             <Image
               source={{
