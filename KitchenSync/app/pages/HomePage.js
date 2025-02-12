@@ -12,8 +12,8 @@ const HomePage = ({}) => {
         KITCHEN<Text style={styles.syncText}>Sync</Text>
       </Text>
       <Image
-      source={require('../../assets/images/favicon.png')}
-      style={{ width: 200, height: 200 }}
+      source={require('../../assets/images/Logo.png')}
+      style={{ width: 400, height: 300 }}
     />
     </View>
     <View style={styles.formContainer}>
@@ -59,7 +59,7 @@ logoContainer: {
   alignItems: "center",
 },
 logoText: {
-  fontSize: 36,
+  fontSize: 32,
   fontWeight: "bold",
   color: "#8B0000",
 },
@@ -67,6 +67,7 @@ syncText: {
   fontSize: 28,
   fontWeight: "normal",
   fontStyle: "italic",
+  color: "#000000",
 },
 formContainer: {
   marginTop: 40,

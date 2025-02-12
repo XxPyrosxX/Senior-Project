@@ -1,9 +1,10 @@
 import { CameraType, CameraView, useCameraPermissions} from "expo-camera";
 import { useRef, useState } from "react";
-import { Button, Pressable, StyleSheet, Text, View, } from "react-native";
+import { Button, Pressable, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { PinchGestureHandler, PinchGestureHandlerEventPayload, State, GestureHandlerRootView} from "react-native-gesture-handler";
+import { useRouter } from "expo-router";
 
 export default function ReceiptCamera() {
   // Request camera permissions
@@ -16,6 +17,7 @@ export default function ReceiptCamera() {
   const [zoom, setZoom] = useState(0);
   // Ref to store the base zoom value when starting a pinch gesture
   const baseZoomRef = useRef(zoom);
+  const router = useRouter();
 
   // While permissions are loading, render nothing.
   if (!permission) {
@@ -93,6 +95,10 @@ export default function ReceiptCamera() {
               zoom={zoom}
               responsiveOrientationWhenOrientationLocked
             >
+              {/* Back Button at the top left */}
+            <TouchableOpacity style={styles.backButton} onPress={() => router.push('/pages/Dashboard')}>
+              <Text style={styles.backText}>Back</Text>
+            </TouchableOpacity>
               {/* Zoom indicator overlay positioned at bottom left */}
               <Text style={styles.zoomIndicator}>
                 Zoom: {Math.round(zoom * 100)}%
@@ -204,5 +210,19 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "80%",
     marginBottom: 20,
+  },
+  backButton: {
+    position: 'absolute',
+    top: 50,
+    left: 15,
+    padding: 5,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    borderRadius: 5,
+    zIndex: 10,
+  },
+
+  backText: {
+    fontSize: 16,
+    color: "#fff",
   },
 });

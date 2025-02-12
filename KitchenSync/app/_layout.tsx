@@ -41,6 +41,7 @@ export default function RootLayout() {
         name="pages/Camera"
         options={{
           title: "Camera",
+          tabBarStyle: { display: "none" },
           tabBarIcon: ({ color, size }) => (
             <Image
               source={{
@@ -101,7 +102,8 @@ export default function RootLayout() {
       name="index" 
       options={{ 
         //tabBarStyle: { display: "none" },
-        href: null }} />
+        href: null }} 
+        />
     </Tabs>
   );
 }
