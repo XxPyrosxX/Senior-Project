@@ -4,7 +4,7 @@ import { Image } from "react-native";
 export default function RootLayout() {
   return (
     <Tabs
-    initialRouteName="pages/HomePage" // Set the initial route to HomePage
+      initialRouteName="pages/HomePage"
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
@@ -91,15 +91,17 @@ export default function RootLayout() {
       <Tabs.Screen
         name="pages/HomePage"
         options={{
-          tabBarStyle: { display: "none" },
+          //tabBarStyle: { display: "none" },
           title: "Home",
-          // You can also hide the tab altogether by setting href: null if needed
           //href: null,
         }}
       />
 
-      {/* Optional: Null Index */}
-      <Tabs.Screen name="index" options={{ href: null }} />
+      <Tabs.Screen 
+      name="index" 
+      options={{ 
+        //tabBarStyle: { display: "none" },
+        href: null }} />
     </Tabs>
   );
 }

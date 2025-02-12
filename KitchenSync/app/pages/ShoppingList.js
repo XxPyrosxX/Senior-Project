@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, StyleSheet, ImageBackground, FlatList, Button } from "react-native";
+import { View, Text, TextInput, StyleSheet, ImageBackground, FlatList, Button, TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
 
 const ShoppingList = () => {
     const [item, setItem] = useState('');
     const [list, setList] = useState([]);
+    const router = useRouter();
 
     // Load saved list from AsyncStorage when component mounts
     useEffect(() => {
@@ -62,6 +64,10 @@ const ShoppingList = () => {
                         KITCHEN<Text style={styles.syncText}>Sync</Text>
                     </Text>
                 </View>
+                {/* Back Button at the top left */}
+                <TouchableOpacity style={styles.backButton} onPress={() => router.push('/pages/Dashboard')}>
+                    <Text style={styles.backText}>Back</Text>
+                </TouchableOpacity>
                 <Text style={styles.title}>Shopping List</Text>
                 <View style={styles.inputContainer}>
                     <TextInput
@@ -109,6 +115,22 @@ const styles = StyleSheet.create({
         padding: 20,
         marginTop: 40
     },
+
+    backButton: {
+        position: 'absolute',
+        top: 40,
+        left: 10,
+        padding: 10,
+        backgroundColor: 'rgba(255,255,255,0.7)',
+        borderRadius: 5,
+        zIndex: 10,
+      },
+
+      backText: {
+        fontSize: 16,
+        fontWeight: "bold",
+      },
+
     title: {
         fontSize: 24,
         fontWeight: "bold",

@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ImageBackground, ScrollView } from "react-native";
+import { useRouter } from 'expo-router';
 
 const pantryItems = [
     { id: 1, title: "Apples", image: require("../../assets/images/apple.png") },
@@ -9,12 +10,17 @@ const pantryItems = [
 ];
 
 const Pantry = () => {
+    const router = useRouter();
     return (
         <>
         <ImageBackground
                 source={require('../../assets/images/Pantry_bg.png')}
                 style={styles.backgroundImage}
             />
+            {/* Back Button at the top left */}
+      <TouchableOpacity style={styles.backButton} onPress={() => router.push('/pages/Dashboard')}>
+        <Text style={styles.backText}>Back</Text>
+      </TouchableOpacity>
         <View>
           <View style={styles.container}>
             <View style={styles.logoContainer}>
@@ -50,6 +56,21 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     },
+
+    backButton: {
+        position: 'absolute',
+        top: 40,
+        left: 10,
+        padding: 10,
+        backgroundColor: 'rgba(255,255,255,0.7)',
+        borderRadius: 5,
+        zIndex: 10,
+      },
+      
+      backText: {
+        fontSize: 16,
+        fontWeight: "bold",
+      },
 
     logoContainer: {
     marginBottom: 20,

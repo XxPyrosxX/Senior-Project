@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 
 export default function CreateAccountScreen() {
   const [email, setEmail] = useState("Email");
@@ -12,11 +13,17 @@ export default function CreateAccountScreen() {
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
   const [confirmPasswordFocused, setConfirmPasswordFocused] = useState(false);
+  const router = useRouter();
 
   return (
     <View style={styles.container}>
       <Text style={styles.logo}>KITCHEN <Text style={styles.sync}>Sync</Text></Text>
       <Text style={styles.title}>CREATE YOUR ACCOUNT</Text>
+
+      {/* Back Button at the top left */}
+      <TouchableOpacity style={styles.backButton} onPress={() => router.push('/pages/HomePage')}>
+        <Text style={styles.backText}>Back</Text>
+      </TouchableOpacity>
 
       <TextInput
         style={styles.input}
@@ -133,5 +140,18 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "bold",
     fontSize: 16,
+  },
+  backButton: {
+    position: 'absolute',
+    top: 40,
+    left: 10,
+    padding: 10,
+    backgroundColor: 'rgba(255,255,255,0.7)',
+    borderRadius: 5,
+    zIndex: 10,
+  },
+  backText: {
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
