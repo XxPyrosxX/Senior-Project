@@ -1,6 +1,10 @@
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from "react-native";
+import { useRouter } from 'expo-router';
+
 const HomePage = ({}) => {
+  const router = useRouter();
+
   return (
     <View style={styles.container}>
     <View style={styles.logoContainer}>
@@ -28,21 +32,22 @@ const HomePage = ({}) => {
             source={{ uri: "https://img.icons8.com/color/48/facebook.png" }}
             style={styles.socialIcon}
           />
-        </TouchableOpacity>
+          </TouchableOpacity>
         <TouchableOpacity>
           <Image
             source={{ uri: "https://img.icons8.com/color/48/google-logo.png" }}
             style={styles.socialIcon}
           />
-        </TouchableOpacity>
+           </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.signupButton}>
-        <Text style={styles.signupButtonText}>Sign up</Text>
+      <TouchableOpacity style={styles.signupButton} 
+      onPress={() => router.push('/pages/CreateAccount')}
+      >
+        <Text style={styles.signupButtonText}>Create Account</Text>
       </TouchableOpacity>
     </View>
   </View>
-);
-}
+);}
 
 const styles = StyleSheet.create({
 container: {
