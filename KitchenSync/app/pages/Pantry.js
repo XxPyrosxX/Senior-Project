@@ -4,10 +4,11 @@ import { useRouter } from 'expo-router';
 
 const API_KEY = "9b1d4ae4a4e940beb3c9d6dec4f8e5ea"; // Replace with your Spoonacular API key
 
-
 const pantryItems = [
 ];
 
+const returnItems = [
+];
 
 const fetchFoodImage = async (foodName) => {
     try {
@@ -40,11 +41,10 @@ const Pantry = () => {
         if (newItem && newQuantity) {
             const newId = items.length + 1;
             const itemKey = newItem.toLowerCase().trim();
-   
+            returnItems.push({ id: newId, title: itemKey, quantity: newQuantity });
             // Fetch image dynamically
             const image = await fetchFoodImage(itemKey);
             if(typeof(image) == "number") {
-                console.log("here")
                 const newItemObj = { id: newId, title: newItem, image: image };
                 setItems([...items, newItemObj]);
             } else {
@@ -259,5 +259,5 @@ const styles = StyleSheet.create({
     },
 });
 
-
+export {returnItems};
 export default Pantry;

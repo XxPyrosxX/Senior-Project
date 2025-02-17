@@ -98,6 +98,13 @@ export default function RootLayout() {
         }}
       />
 
+      <Tabs.Screen
+        name="pages/PantryRecipes"
+        options={{
+          href: null, 
+        }}
+      />
+
       <Tabs.Screen 
       name="index" 
       options={{ 
