@@ -16,7 +16,6 @@ const PantryRecipes = () => {
         const fetchRecipes = async () => {
             try {
                 if (returnItems.length === 0) {
-                    setError('Your pantry is empty! Please add some items.');
                     setLoading(false);
                     return;
                 }
