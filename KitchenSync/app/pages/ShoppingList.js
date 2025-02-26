@@ -68,7 +68,7 @@ const ShoppingList = () => {
                 <TouchableOpacity style={styles.backButton} onPress={() => router.push('/pages/Dashboard')}>
                     <Text style={styles.backText}>Back</Text>
                 </TouchableOpacity>
-                <Text style={styles.title}>Shopping List</Text>
+                <Text style={styles.title}>Grocery List</Text>
                 <View style={styles.inputContainer}>
                     <TextInput
                         style={styles.input}

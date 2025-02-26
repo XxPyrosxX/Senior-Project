@@ -1,42 +1,73 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert, Image } from 'react-native';
 import { useRouter } from 'expo-router';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 export default function Dashboard() {
   const router = useRouter();
 
   return (
     <View style={styles.container}>
-      <Text style={styles.logo}>
-        KITCHEN<Text style={styles.syncText}>Sync</Text>
-      </Text>
-      <View style={styles.buttonsContainer}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => router.push('/pages/Pantry')}
-        >
-          <Text style={styles.buttonText}>MY PANTRY</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => router.push('/pages/PantryRecipes')}
-        >
-          <Text style={styles.buttonText}>PANTRY RECIPES</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => router.push('/pages/ShoppingList')}
-        >
-          <Text style={styles.buttonText}>SHOPPING LIST</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() =>
-            Alert.alert('Coming Soon', 'This feature is under development.')
-          }
-        >
-          <Text style={styles.buttonText}>WANT TO MAKE</Text>
-        </TouchableOpacity>
+      <View style={styles.rowsContainer}>
+        {/* Top Row */}
+        <View style={styles.row}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => router.push('/pages/Pantry')}
+          > 
+            <Image
+              source={require('../../assets/images/kitchen_stock_icon.png')}
+              style={{ width: 150, height: 150 }}
+            />
+            <Text style={styles.buttonText}>Kitchen{"\n"}Stock</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => router.push('/pages/PantryRecipes')}
+          >
+            <Image
+              source={require('../../assets/images/ready_to_cook.png')}
+              style={{ width: 150, height: 150 }}
+            />
+            <Text style={styles.buttonText}>Meal{"\n"}Ideas</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Logo in the middle with box */}
+        <View style={styles.logoContainer}>
+          <View style={styles.logoBox}>
+            <Text style={styles.logo}>
+              KITCHEN<Text style={styles.syncText}>Sync</Text>
+            </Text>
+          </View>
+        </View>
+
+        {/* Bottom Row */}
+        <View style={styles.row}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => router.push('/pages/ShoppingList')}
+          >
+            <Image
+              source={require('../../assets/images/grocery.png')}
+              style={{ width: 175, height: 150 }}
+              />
+            <Text style={styles.buttonText}>Grocery{"\n"}List</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() =>
+              Alert.alert('Coming Soon', 'This feature is under development.')
+            }
+          >
+            <Image
+              source={require('../../assets/images/cravings.png')}
+              style={{ width: 125, height: 150 }}
+              />
+            <Text style={styles.buttonText}>Cravings{"\n"}Menu</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -45,45 +76,68 @@ export default function Dashboard() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF4CF',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#FFFACD', 
+    padding: 10,
   },
-  logo: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    color: '#9E2A2B',
-    marginBottom: 20,
+  rowsContainer: {
+    flex: 1,
+    justifyContent: 'space-between',
   },
-  syncText: {
-    fontSize: 28,
-    fontWeight: 'normal',
-    fontStyle: 'italic',
-    color: '#000',
-  },
-  buttonsContainer: {
+  row: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    marginHorizontal: 5,
+    marginVertical: 55, 
   },
   button: {
-    width: 140,
-    height: 80,
-    margin: 10,
-    backgroundColor: '#FEE9A3',
-    borderRadius: 10,
+    width: '48%',
+    height: 300,
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
+    borderColor: '#006400',
     borderWidth: 2,
-    borderColor: '#000',
+    backgroundColor: '#FFD580', 
+    borderRadius: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
   buttonText: {
-    fontSize: 18,
+    fontSize: 22,
     fontWeight: 'bold',
-    color: '#000',
+    fontStyle: 'italic',
+    color: '#000000', 
+    marginTop: 10,
+    textAlign: 'center',
+  },
+  logoContainer: {
+    alignItems: 'center',
+  },
+  logoBox: {
+    width: '90%',
+    padding: 20,
+    borderColor: '#006400',
+    borderWidth: 2,
+    backgroundColor: '#FFD580',
+    borderRadius: 15,
+    marginVertical: -25,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+
+  },
+  logo: {
+    fontSize: 44,
+    fontWeight: 'bold',
+    color: '#8B0000', 
+    textAlign: 'center',
+  },
+  syncText: {
+    fontSize: 32,
+    fontWeight: 'normal',
+    fontStyle: 'italic',
+    color: '#000000', 
   },
 });

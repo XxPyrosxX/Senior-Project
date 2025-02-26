@@ -13,7 +13,7 @@ const HomePage = ({}) => {
       </Text>
       <Image
       source={require('../../assets/images/Logo.png')}
-      style={{ width: 400, height: 300 }}
+      style={{ width: 350, height: 250 }}
     />
     </View>
     <View style={styles.formContainer}>
@@ -59,12 +59,12 @@ logoContainer: {
   alignItems: "center",
 },
 logoText: {
-  fontSize: 32,
+  fontSize: 44,
   fontWeight: "bold",
   color: "#8B0000",
 },
 syncText: {
-  fontSize: 28,
+  fontSize: 32,
   fontWeight: "normal",
   fontStyle: "italic",
   color: "#000000",
