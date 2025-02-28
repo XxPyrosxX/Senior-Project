@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ImageBackgr
 
 const About = () => {
 
+    {/* About page, possibly add pictures of members */}
     return (
         <ImageBackground
             source={require('../../../assets/images/Pantry_bg.png')}
@@ -22,7 +23,6 @@ const About = () => {
                 ABOUT
             </Text>
         </View>
-
         <View style={styles.paragraphContainer}>
             <Text style={styles.paragraph}>
                 KitchenSync is developed by a group of students at the University of Florida

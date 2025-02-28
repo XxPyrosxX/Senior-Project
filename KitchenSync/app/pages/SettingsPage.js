@@ -44,10 +44,11 @@ const SettingsPage = ({}) => {
           />
           <Text style={styles.optionText}>Help and Support</Text>
         </TouchableOpacity>
+        {/* About */}
         <TouchableOpacity 
           style={styles.option}
           onPress={() => router.push('/pages/settings/About')}
-        >
+        > 
           <Image
             source={{ uri: "https://img.icons8.com/ios-filled/50/help.png" }}
             style={styles.icon}

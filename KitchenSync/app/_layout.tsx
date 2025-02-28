@@ -111,6 +111,7 @@ export default function RootLayout() {
         //tabBarStyle: { display: "none" },
         href: null }} 
       />
+      {/* Hide about from bar */}
       <Tabs.Screen
         name="pages/settings/About"
         options={{
