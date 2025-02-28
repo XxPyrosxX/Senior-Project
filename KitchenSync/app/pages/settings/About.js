@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
+import {useRouter} from 'expo-router';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ImageBackground, ScrollView, Modal, Button } from "react-native";
 
 const About = () => {
 
+    const router = useRouter();
     {/* About page, possibly add pictures of members */}
     return (
         <ImageBackground
             source={require('../../../assets/images/Pantry_bg.png')}
             style={styles.backgroundImage}
         >
+        
+        <TouchableOpacity style={styles.backButton} onPress={() => router.push('/pages/SettingsPage')}>
+        <Text style={styles.backText}>Back</Text>
+        </TouchableOpacity>
         
         <View style={styles.container}>
             <View style={styles.logoContainer}>
@@ -95,6 +101,21 @@ const styles = StyleSheet.create({
         fontSize: 20,
         lineHeight: 28,
         color: '#333',
+    },
+
+    backButton: {
+        position: 'absolute',
+        top: 40,
+        left: 10,
+        padding: 10,
+        backgroundColor: 'rgba(255,255,255,0.7)',
+        borderRadius: 5,
+        zIndex: 10,
+    },
+
+    backText: {
+        fontSize: 16,
+        fontWeight: "bold",
     }
 
 })
