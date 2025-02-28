@@ -110,7 +110,13 @@ export default function RootLayout() {
       options={{ 
         //tabBarStyle: { display: "none" },
         href: null }} 
-        />
+      />
+      <Tabs.Screen
+        name="pages/settings/About"
+        options={{
+          tabBarStyle: { display: "none" },
+          href: null }}
+      />
     </Tabs>
   );
 }
