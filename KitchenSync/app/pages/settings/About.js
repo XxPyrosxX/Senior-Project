@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import {useRouter} from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ImageBackground, ScrollView, Modal, Button } from "react-native";
 
 const About = () => {
 
-    const router = useRouter();
+    const navigation = useNavigation();
     {/* About page, possibly add pictures of members */}
     return (
         <ImageBackground
@@ -12,7 +12,7 @@ const About = () => {
             style={styles.backgroundImage}
         >
         
-        <TouchableOpacity style={styles.backButton} onPress={() => router.push('/pages/SettingsPage')}>
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('SettingsPage')}>
         <Text style={styles.backText}>Back</Text>
         </TouchableOpacity>
         

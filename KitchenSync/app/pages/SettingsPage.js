@@ -55,6 +55,19 @@ const SettingsPage = ({}) => {
           />
           <Text style={styles.optionText}>About</Text>
         </TouchableOpacity>
+        
+        {/* Logout */}
+        <TouchableOpacity 
+          style={styles.option}
+          onPress={() => router.push('/pages/HomePage')}
+        > 
+          <Image
+            source={{ uri: "https://img.icons8.com/ios-filled/50/help.png" }}
+            style={styles.icon}
+          />
+          <Text style={styles.optionText}>Logout</Text>
+        </TouchableOpacity>
+
       </View>
       </View>
   );

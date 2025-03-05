@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, StyleSheet, ImageBackground, FlatList, Button, TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useRouter } from "expo-router";
+import { useNavigation } from "@react-navigation/native";
 
 const ShoppingList = () => {
     const [item, setItem] = useState('');
     const [list, setList] = useState([]);
-    const router = useRouter();
+    const navigation = useNavigation(); // Use navigation hook
 
     // Load saved list from AsyncStorage when component mounts
     useEffect(() => {
@@ -23,7 +23,7 @@ const ShoppingList = () => {
         loadList();
     }, []);
 
-    // AsyncStorage
+    // Save list to AsyncStorage whenever it changes
     useEffect(() => {
         const saveList = async () => {
             try {
@@ -65,7 +65,7 @@ const ShoppingList = () => {
                     </Text>
                 </View>
                 {/* Back Button at the top left */}
-                <TouchableOpacity style={styles.backButton} onPress={() => router.push('/pages/Dashboard')}>
+                <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
                     <Text style={styles.backText}>Back</Text>
                 </TouchableOpacity>
                 <Text style={styles.title}>Grocery List</Text>
@@ -73,7 +73,7 @@ const ShoppingList = () => {
                     <TextInput
                         style={styles.input}
                         placeholder="Enter item"
-                         placeholderTextColor= 'black'
+                        placeholderTextColor='black'
                         value={item}
                         onChangeText={setItem}
                     />
@@ -115,7 +115,6 @@ const styles = StyleSheet.create({
         padding: 20,
         marginTop: 40
     },
-
     backButton: {
         position: 'absolute',
         top: 10,
@@ -124,13 +123,11 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(255,255,255,0.7)',
         borderRadius: 5,
         zIndex: 10,
-      },
-
-      backText: {
+    },
+    backText: {
         fontSize: 16,
         fontWeight: "bold",
-      },
-
+    },
     title: {
         fontSize: 24,
         fontWeight: "bold",
@@ -140,8 +137,6 @@ const styles = StyleSheet.create({
     inputContainer: {
         flexDirection: "row",
         marginBottom: 20,
-        backgroundColor: 'cbcbcb',
-        
     },
     input: {
         flex: 1,

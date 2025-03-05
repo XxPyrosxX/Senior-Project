@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
+import { useNavigation } from "@react-navigation/native";
+import HomePage from "./HomePage";
 
 export default function CreateAccountScreen() {
   const [email, setEmail] = useState("Email");
@@ -13,7 +14,7 @@ export default function CreateAccountScreen() {
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
   const [confirmPasswordFocused, setConfirmPasswordFocused] = useState(false);
-  const router = useRouter();
+  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
@@ -21,7 +22,7 @@ export default function CreateAccountScreen() {
       <Text style={styles.title}>CREATE YOUR ACCOUNT</Text>
 
       {/* Back Button at the top left */}
-      <TouchableOpacity style={styles.backButton} onPress={() => router.push('/pages/HomePage')}>
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
         <Text style={styles.backText}>Back</Text>
       </TouchableOpacity>
 

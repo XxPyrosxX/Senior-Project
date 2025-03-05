@@ -1,10 +1,10 @@
-import { CameraType, CameraView, useCameraPermissions} from "expo-camera";
+import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
 import { useRef, useState } from "react";
 import { Button, Pressable, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
 import { FontAwesome6 } from "@expo/vector-icons";
-import { PinchGestureHandler, PinchGestureHandlerEventPayload, State, GestureHandlerRootView} from "react-native-gesture-handler";
-import { useRouter } from "expo-router";
+import { PinchGestureHandler, PinchGestureHandlerEventPayload, State, GestureHandlerRootView } from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/native";
 
 export default function ReceiptCamera() {
   // Request camera permissions
@@ -17,7 +17,7 @@ export default function ReceiptCamera() {
   const [zoom, setZoom] = useState(0);
   // Ref to store the base zoom value when starting a pinch gesture
   const baseZoomRef = useRef(zoom);
-  const router = useRouter();
+  const navigation = useNavigation();
 
   // While permissions are loading, render nothing.
   if (!permission) {
@@ -96,7 +96,7 @@ export default function ReceiptCamera() {
               responsiveOrientationWhenOrientationLocked
             >
               {/* Back Button at the top left */}
-            <TouchableOpacity style={styles.backButton} onPress={() => router.push('/pages/Dashboard')}>
+            <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
               <Text style={styles.backText}>Back</Text>
             </TouchableOpacity>
               {/* Zoom indicator overlay positioned at bottom left */}
