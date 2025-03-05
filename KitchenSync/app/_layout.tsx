@@ -115,7 +115,13 @@ export default function RootLayout() {
       <Tabs.Screen
         name="pages/ItemInfo" 
         options={{
-          href: null, 
+          href: null }} 
+      />
+      {/* Hide about from bar */}
+      <Tabs.Screen
+        name="pages/settings/About"
+        options={{
+          href: null 
         }}
       />
     </Tabs>
