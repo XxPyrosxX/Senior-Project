@@ -2,7 +2,7 @@ import { Tabs } from "expo-router";
 import { Image } from "react-native";
 
 
-export default function RootLayout() {
+export default function InsideLayout() {
   return (
     <Tabs
     screenOptions={{
@@ -87,7 +87,8 @@ export default function RootLayout() {
       <Tabs.Screen
         name="pages/Pantry"
         options={{
-          href: null,
+          //tabBarStyle:  { display: "none" }
+          //href: null,
         }}
       />
       <Tabs.Screen
@@ -118,7 +119,7 @@ export default function RootLayout() {
       <Tabs.Screen
         name="pages/PantryRecipes"
         options={{
-          href: null,
+          //href: null,
         }}
       />
 

@@ -12,7 +12,7 @@ export default function Dashboard() {
         <View style={styles.row}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => router.push('/pages/Pantry')}
+            onPress={() => router.push('Pantry')}
           > 
             <Image
               source={require('../../assets/images/kitchen_stock_icon.png')}
@@ -22,7 +22,7 @@ export default function Dashboard() {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => router.push('/pages/PantryRecipes')}
+            onPress={() => router.push('PantryRecipes')}
           >
             <Image
               source={require('../../assets/images/ready_to_cook.png')}
@@ -45,7 +45,7 @@ export default function Dashboard() {
         <View style={styles.row}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => router.push('/pages/ShoppingList')}
+            onPress={() => router.push('ShoppingList')}
           >
             <Image
               source={require('../../assets/images/grocery.png')}
