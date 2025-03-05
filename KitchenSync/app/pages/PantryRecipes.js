@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ImageBackgr
 import { useRouter } from 'expo-router';
 import {returnItems} from "./Pantry";
 
-const API_KEY = '9b1d4ae4a4e940beb3c9d6dec4f8e5ea';
+const API_KEY = '9edb43dda3d64e96bae0e88cc7dde1c0';
 const BASE_URL = 'https://api.spoonacular.com/recipes/findByIngredients';
 
 const PantryRecipes = () => {

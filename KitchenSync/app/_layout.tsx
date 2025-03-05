@@ -111,6 +111,13 @@ export default function RootLayout() {
         //tabBarStyle: { display: "none" },
         href: null }} 
         />
+
+      <Tabs.Screen
+        name="pages/ItemInfo" 
+        options={{
+          href: null, 
+        }}
+      />
     </Tabs>
   );
 }

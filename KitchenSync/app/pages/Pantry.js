@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ImageBackground, ScrollView, Modal, Button } from "react-native";
 import { useRouter } from 'expo-router';
 
-const API_KEY = "9b1d4ae4a4e940beb3c9d6dec4f8e5ea"; // Replace with your Spoonacular API key
+const API_KEY = "9edb43dda3d64e96bae0e88cc7dde1c0"; // Replace with your Spoonacular API key
 
 const pantryItems = [
 ];
@@ -44,13 +44,15 @@ const Pantry = () => {
             returnItems.push({ id: newId, title: itemKey, quantity: newQuantity });
             // Fetch image dynamically
             const image = await fetchFoodImage(itemKey);
-            if(typeof(image) == "number") {
-                const newItemObj = { id: newId, title: newItem, image: image };
-                setItems([...items, newItemObj]);
+            // Store the current date as an ISO string
+            const dateAdded = new Date().toISOString();
+            let newItemObj;
+            if (typeof image === "number") {
+                newItemObj = { id: newId, title: newItem, quantity: newQuantity, image: image, dateAdded };
             } else {
-                const newItemObj = { id: newId, title: newItem, image: { uri: image } };
-                setItems([...items, newItemObj]);
+                newItemObj = { id: newId, title: newItem, quantity: newQuantity, image: { uri: image }, dateAdded };
             }
+            setItems([...items, newItemObj]);
             setNewItem('');
             setNewQuantity('');
             setModalVisible(false);
@@ -121,11 +123,31 @@ const Pantry = () => {
 
             <ScrollView>
                 <View style={styles.gridContainer}>
-                    {items.map((item, index) => (
-                        <View key={item.id} style={styles.itemContainer}>
+                    {items.map((item) => (
+                        <TouchableOpacity
+                            key={item.id}
+                            style={styles.itemContainer}
+                            onPress={() => {
+                                router.push({
+                                    pathname: '/pages/ItemInfo',
+                                    params: {
+                                        id: item.id,
+                                        title: item.title,
+                                        quantity: item.quantity || 'N/A',
+                                        image:
+                                            typeof item.image === 'number'
+                                                ? Image.resolveAssetSource(item.image).uri
+                                                : item.image.uri, // already a URI string if fetched from the API
+                                        dateAdded: item.dateAdded,
+                                    },
+                                });
+                            }}
+                        >
                             <Image source={item.image} style={styles.itemImage} />
                             <Text style={styles.itemTitle}>{item.title}</Text>
-                        </View>
+                            {/* Optionally display date added */}
+                            <Text style={styles.dateAdded}>Added on: {new Date(item.dateAdded).toLocaleDateString()}</Text>
+                        </TouchableOpacity>
                     ))}
                 </View>
             </ScrollView>
@@ -213,6 +235,12 @@ const styles = StyleSheet.create({
         marginTop: 8,
         fontSize: 16,
         fontWeight: "bold",
+    },
+    dateAdded: {
+        fontSize: 12,
+        color: "#666",
+        marginTop: 4,
+        textAlign: "center",
     },
     modalContainer: {
         flex: 1,

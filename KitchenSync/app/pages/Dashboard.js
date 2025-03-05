@@ -1,8 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert, Image } from 'react-native';
 import { useRouter } from 'expo-router';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import AntDesign from '@expo/vector-icons/AntDesign';
 
 export default function Dashboard() {
   const router = useRouter();
