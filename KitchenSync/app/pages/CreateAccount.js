@@ -22,7 +22,7 @@ export default function CreateAccountScreen() {
       <Text style={styles.title}>CREATE YOUR ACCOUNT</Text>
 
       {/* Back Button at the top left */}
-      <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Login')}>
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
         <Text style={styles.backText}>Back</Text>
       </TouchableOpacity>
 
