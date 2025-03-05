@@ -1,9 +1,9 @@
 import React from "react";
-import {useRouter} from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 
-const SettingsPage = ({}) => {
-  const router = useRouter();
+const SettingsPage = () => {
+  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
@@ -47,7 +47,7 @@ const SettingsPage = ({}) => {
         {/* About */}
         <TouchableOpacity 
           style={styles.option}
-          onPress={() => router.push('/pages/settings/About')}
+          onPress={() => navigation.navigate('About')}
         > 
           <Image
             source={{ uri: "https://img.icons8.com/ios-filled/50/help.png" }}
@@ -56,7 +56,7 @@ const SettingsPage = ({}) => {
           <Text style={styles.optionText}>About</Text>
         </TouchableOpacity>
       </View>
-      </View>
+    </View>
   );
 };
 

@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
-import { useRoute } from '@react-navigation/native';
-import { useRouter } from 'expo-router';
+import { useRoute, useNavigation } from '@react-navigation/native';
 
-// Removed fetchFoodImage function since we no longer re-fetch the image
-
-// --------------------------------------------------------------------
-// Function to fetch nutritional info using the CalorieNinja API (unchanged)
-// --------------------------------------------------------------------
 const CALORIENINJA_API_KEY = "LLew1ywTsyGT1GAwBl0zHg==n1YiL8iF91CWY2Bq";
 
 const fetchNutritionFromCalorieNinja = async (foodQuery) => {
@@ -37,7 +31,6 @@ const fetchNutritionFromCalorieNinja = async (foodQuery) => {
   }
 };
 
-// Helper function to normalize the image source
 const getImageSource = (img) => {
   if (typeof img === 'number') return img;
   if (typeof img === 'string') return { uri: img };
@@ -45,14 +38,10 @@ const getImageSource = (img) => {
   return require("../../assets/images/default.png");
 };
 
-// --------------------------------------------------------------------
-//  Main component: PantryItemDetails
-// --------------------------------------------------------------------
 export default function PantryItemDetails() {
   const route = useRoute();
-  // Extract title, quantity, image, and dateAdded passed from Pantry.
+  const navigation = useNavigation();
   const { title, quantity, image, dateAdded } = route.params || {};
-  const router = useRouter();
 
   // Placeholder for expiration date
   const expirationDate = "N/A";
@@ -63,7 +52,6 @@ export default function PantryItemDetails() {
   const [loadingImage, setLoadingImage] = useState(true);
 
   useEffect(() => {
-    // Directly use the image passed from Pantry.
     if (image) {
       setItemImage(getImageSource(image));
     } else {
@@ -71,7 +59,6 @@ export default function PantryItemDetails() {
     }
     setLoadingImage(false);
 
-    // Fetch the nutritional info using CalorieNinja API.
     if (title) {
       fetchNutritionFromCalorieNinja(title).then((info) => {
         setNutritionalInfo(info);
@@ -84,7 +71,7 @@ export default function PantryItemDetails() {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.backButton} onPress={() => router.push('pages/Pantry')}>
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Pantry')}>
         <Text style={styles.backText}>Back</Text>
       </TouchableOpacity>
 
@@ -93,10 +80,7 @@ export default function PantryItemDetails() {
           <ActivityIndicator size="large" color="#006400" />
         ) : (
           itemImage && (
-            <Image
-              source={itemImage}
-              style={styles.itemImage}
-            />
+            <Image source={itemImage} style={styles.itemImage} />
           )
         )}
         <Text style={styles.title}>{title}</Text>
@@ -116,12 +100,9 @@ export default function PantryItemDetails() {
   );
 }
 
-// --------------------------------------------------------------------
-// Styles
-// --------------------------------------------------------------------
 const styles = StyleSheet.create({
   container: {
-    flex: 1, // fill the screen
+    flex: 1,
     padding: 20,
     backgroundColor: '#FFFACD',
     alignItems: 'center',

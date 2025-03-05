@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert, Image } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
+
 
 export default function Dashboard() {
-  const router = useRouter();
+  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
@@ -12,27 +13,31 @@ export default function Dashboard() {
         <View style={styles.row}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => router.push('/pages/Pantry')}
-          > 
+            onPress={() => navigation.navigate('Pantry')}
+          >
             <Image
               source={require('../../assets/images/kitchen_stock_icon.png')}
               style={{ width: 150, height: 150 }}
             />
-            <Text style={styles.buttonText}>Kitchen{"\n"}Stock</Text>
+            <Text style={styles.buttonText}>
+              Kitchen{"\n"}Stock
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => router.push('/pages/PantryRecipes')}
+            onPress={() => navigation.navigate('PantryRecipes')}
           >
             <Image
               source={require('../../assets/images/ready_to_cook.png')}
               style={{ width: 150, height: 150 }}
             />
-            <Text style={styles.buttonText}>Meal{"\n"}Ideas</Text>
+            <Text style={styles.buttonText}>
+              Meal{"\n"}Ideas
+            </Text>
           </TouchableOpacity>
         </View>
 
-        {/* Logo in the middle with box */}
+        {/* Logo in the middle */}
         <View style={styles.logoContainer}>
           <View style={styles.logoBox}>
             <Text style={styles.logo}>
@@ -45,13 +50,15 @@ export default function Dashboard() {
         <View style={styles.row}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => router.push('/pages/ShoppingList')}
+            onPress={() => navigation.navigate('ShoppingList')}
           >
             <Image
               source={require('../../assets/images/grocery.png')}
               style={{ width: 175, height: 150 }}
-              />
-            <Text style={styles.buttonText}>Grocery{"\n"}List</Text>
+            />
+            <Text style={styles.buttonText}>
+              Grocery{"\n"}List
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
@@ -62,8 +69,10 @@ export default function Dashboard() {
             <Image
               source={require('../../assets/images/cravings.png')}
               style={{ width: 125, height: 150 }}
-              />
-            <Text style={styles.buttonText}>Cravings{"\n"}Menu</Text>
+            />
+            <Text style={styles.buttonText}>
+              Cravings{"\n"}Menu
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -74,7 +83,7 @@ export default function Dashboard() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFACD', 
+    backgroundColor: '#FFFACD',
     padding: 10,
   },
   rowsContainer: {
@@ -85,7 +94,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginHorizontal: 5,
-    marginVertical: 55, 
+    marginVertical: 55,
   },
   button: {
     width: '48%',
@@ -94,7 +103,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: '#006400',
     borderWidth: 2,
-    backgroundColor: '#FFD580', 
+    backgroundColor: '#FFD580',
     borderRadius: 15,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
@@ -105,7 +114,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: 'bold',
     fontStyle: 'italic',
-    color: '#000000', 
+    color: '#000000',
     marginTop: 10,
     textAlign: 'center',
   },
@@ -124,18 +133,17 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 4,
-
   },
   logo: {
     fontSize: 44,
     fontWeight: 'bold',
-    color: '#8B0000', 
+    color: '#8B0000',
     textAlign: 'center',
   },
   syncText: {
     fontSize: 32,
     fontWeight: 'normal',
     fontStyle: 'italic',
-    color: '#000000', 
+    color: '#000000',
   },
 });

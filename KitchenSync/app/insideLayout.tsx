@@ -1,148 +1,115 @@
-import { Tabs } from "expo-router";
-import { Image } from "react-native";
+import React from 'react';
+import { Image } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Dashboard from './pages/Dashboard';
+import Camera from './pages/Camera';
+import SettingsPage from './pages/SettingsPage';
+import Pantry from './pages/Pantry';
+import PantryRecipes from './pages/PantryRecipes';
+import ShoppingList from './pages/ShoppingList';
+import ItemInfo from './pages/ItemInfo';
+import About from './pages/settings/About';
+import createAccount from './pages/CreateAccount';
+import Login from './pages/HomePage';
 
+const Tab = createBottomTabNavigator();
 
-export default function RootLayout() {
+export default function TabsLayout() {
   return (
-    <Tabs
-    screenOptions={{
+    <Tab.Navigator
+      screenOptions={{
         headerShown: false,
         tabBarStyle: {
           backgroundColor: "#b23e3e",
-          borderTopWidth: 0,          // Remove top border
-          height: 80,                 // Adjust height for better spacing
+          borderTopWidth: 0,
+          height: 80,
         },
-        tabBarActiveTintColor: "#FFF",   // Active icon color (white)
-        tabBarInactiveTintColor: "#FFF", // Inactive icon color (white)
-        tabBarLabelStyle: {
-          display: "none", // Hide labels
+        tabBarActiveTintColor: "#FFF",
+        tabBarInactiveTintColor: "#FFF",
+        tabBarLabelStyle: { display: "none" },
+        tabBarItemStyle: {
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
         },
       }}
-
     >
-
-
-      {/* Dashboard Screen */}
-      <Tabs.Screen
-        name="pages/Dashboard"
+      {/* Visible screens – these take equal space */}
+      <Tab.Screen
+        name="Dashboard"
+        component={Dashboard}
         options={{
-          title: "Dashboard",
-          tabBarIcon: ({ }) => (
+          tabBarIcon: () => (
             <Image
-              source={{
-                uri: "https://img.icons8.com/ios-filled/50/FFFFFF/home.png",
-              }}
+              source={{ uri: "https://img.icons8.com/ios-filled/50/FFFFFF/home.png" }}
               style={{ width: 30, height: 30, marginBottom: -20 }}
             />
           ),
-          headerShown: false,
         }}
       />
-
-
-      {/* Camera Screen */}
-      <Tabs.Screen
-        name="pages/Camera"
+      <Tab.Screen
+        name="Camera"
+        component={Camera}
         options={{
-          title: "Camera",
           tabBarStyle: { display: "none" },
-          tabBarIcon: ({}) => (
+          tabBarIcon: () => (
             <Image
-              source={{
-                uri: "https://img.icons8.com/ios-filled/50/FFFFFF/camera.png",
-              }}
+              source={{ uri: "https://img.icons8.com/ios-filled/50/FFFFFF/camera.png" }}
               style={{ width: 30, height: 30, marginBottom: -20 }}
             />
           ),
-          headerShown: false,
         }}
       />
-
-
-      {/* Settings Screen */}
-      <Tabs.Screen
-        name="pages/SettingsPage"
+      <Tab.Screen
+        name="SettingsPage"
+        component={SettingsPage}
         options={{
-          title: "Settings",
-          tabBarIcon: ({ }) => (
+          tabBarIcon: () => (
             <Image
-              source={{
-                uri: "https://img.icons8.com/ios-filled/50/FFFFFF/settings.png",
-              }}
+              source={{ uri: "https://img.icons8.com/ios-filled/50/FFFFFF/settings.png" }}
               style={{ width: 30, height: 30, marginBottom: -20 }}
             />
           ),
-          headerShown: false,
         }}
       />
 
-
-      {/* Hidden Pages */}
-      <Tabs.Screen
-        name="pages/ShoppingList"
-        options={{
-          href: null, // This ensures the page is not accessible via the tab bar
-        }}
+      {/* Hidden screens – these will not reserve space in the tab bar */}
+      <Tab.Screen
+        name="Pantry"
+        component={Pantry}
+        options={{ tabBarItemStyle: { display: "none" } }}
       />
-      <Tabs.Screen
-        name="pages/Pantry"
-        options={{
-          href: null,
-        }}
+      <Tab.Screen
+        name="PantryRecipes"
+        component={PantryRecipes}
+        options={{ tabBarItemStyle: { display: "none" } }}
       />
-      <Tabs.Screen
-        name="pages/CreateAccount"
-        options={{
-          tabBarStyle: { display: "none" },
-          href: null,
-        }}
+      <Tab.Screen
+        name="ShoppingList"
+        component={ShoppingList}
+        options={{ tabBarItemStyle: { display: "none" } }}
       />
-      <Tabs.Screen
-        name="pages/HomePage"
-        options={{
-          tabBarStyle: { display: "none" },
-          //title: "Home",
-          href: null,
-        }}
+      <Tab.Screen
+        name="ItemInfo"
+        component={ItemInfo}
+        options={{ tabBarItemStyle: { display: "none" } }}
       />
-      <Tabs.Screen
-        name="insideLayout"
-        options={{
-          tabBarStyle: { display: "none" },
-          //title: "Home",
-          href: null,
-        }}
+      <Tab.Screen
+        name="About"
+        component={About}
+        options={{ tabBarItemStyle: { display: "none" } }}
       />
-
-
-      <Tabs.Screen
-        name="pages/PantryRecipes"
-        options={{
-          href: null,
-        }}
+      <Tab.Screen
+        name="CreateAccount"
+        component={createAccount}
+        options={{ tabBarItemStyle: { display: "none" } }}
       />
-
-
-      <Tabs.Screen
-      name="index"
-      options={{
-        //tabBarStyle: { display: "none" },
-        href: null }}
-      />
-      <Tabs.Screen
-        name="pages/ItemInfo"
-        options={{
-          href: null }}
-      />
-
-      {/* Hide about from bar */}
-      <Tabs.Screen
-        name="pages/settings/About"
-        options={{
-          tabBarStyle: { display: "none" },
-          href: null }}
-      />
-    </Tabs>
+      <Tab.Screen
+        name="HomePage"
+        component={Login}
+        options={{ tabBarItemStyle: { display: "none" } }}
+        />
+    </Tab.Navigator>
   );
 }
 

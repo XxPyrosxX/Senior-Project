@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ImageBackground, ScrollView, Modal } from "react-native";
-import { useRouter } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const API_KEY = "9edb43dda3d64e96bae0e88cc7dde1c0";
 
@@ -29,9 +30,36 @@ const Pantry = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [newItem, setNewItem] = useState('');
   const [newQuantity, setNewQuantity] = useState('');
-  const [items, setItems] = useState(pantryItems);
+  const [items, setItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const router = useRouter();
+  const navigation = useNavigation();
+
+  // Load persisted pantry items when component mounts
+  useEffect(() => {
+    const loadItems = async () => {
+      try {
+        const storedItems = await AsyncStorage.getItem('pantryItems');
+        if (storedItems) {
+          setItems(JSON.parse(storedItems));
+        }
+      } catch (error) {
+        console.error("Error loading pantry items:", error);
+      }
+    };
+    loadItems();
+  }, []);
+
+  // Save items to AsyncStorage whenever they change
+  useEffect(() => {
+    const saveItems = async () => {
+      try {
+        await AsyncStorage.setItem('pantryItems', JSON.stringify(items));
+      } catch (error) {
+        console.error("Error saving pantry items:", error);
+      }
+    };
+    saveItems();
+  }, [items]);
 
   const handleAddItem = async () => {
     if (newItem && newQuantity) {
@@ -65,7 +93,7 @@ const Pantry = () => {
         source={require('../../assets/images/Pantry_bg.png')}
         style={styles.backgroundImage}
       />
-      <TouchableOpacity style={styles.backButton} onPress={() => router.push('/pages/Dashboard')}>
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
         <Text style={styles.backText}>Back</Text>
       </TouchableOpacity>
       
@@ -133,18 +161,15 @@ const Pantry = () => {
               key={item.id}
               style={styles.itemContainer}
               onPress={() => {
-                router.push({
-                  pathname: '/pages/ItemInfo',
-                  params: {
-                    id: item.id,
-                    title: item.title,
-                    quantity: item.quantity || 'N/A',
-                    image:
-                      typeof item.image === 'number'
-                        ? Image.resolveAssetSource(item.image).uri
-                        : item.image.uri,
-                    dateAdded: item.dateAdded,
-                  },
+                navigation.navigate('ItemInfo', {
+                  id: item.id,
+                  title: item.title,
+                  quantity: item.quantity || 'N/A',
+                  image:
+                    typeof item.image === 'number'
+                      ? Image.resolveAssetSource(item.image).uri
+                      : item.image.uri,
+                  dateAdded: item.dateAdded,
                 });
               }}
             >
@@ -181,7 +206,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
-  // New headerContainer for logo and search bar in column
   headerContainer: {
     marginTop: 50,
     paddingHorizontal: 20,
@@ -298,5 +322,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export {returnItems};
+export { returnItems };
 export default Pantry;

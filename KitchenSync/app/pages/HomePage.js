@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ActivityIndicator, Button, KeyboardAvoidingView } from "react-native";
-import { useRouter } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import { FIREBASE_AUTH } from '../../FirebaseConfig'; 
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 
 
 const HomePage = ({}) => {
-  const router = useRouter();
+  const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -87,7 +87,7 @@ const HomePage = ({}) => {
               </TouchableOpacity>
           </View>
           <TouchableOpacity style={styles.signupButton} 
-          onPress={() => router.push('/pages/CreateAccount')}
+          onPress={() => navigation.navigate('CreateAccount')}
           >
             <Text style={styles.signupButtonText}>Create Account</Text>
           </TouchableOpacity>
