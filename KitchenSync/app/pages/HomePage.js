@@ -38,7 +38,7 @@ const HomePage = ({}) => {
       setLoading(false);
     }
   };
-  
+
 
   return (
 
@@ -91,7 +91,6 @@ const HomePage = ({}) => {
             <Text style={styles.signupButtonText}>Create Account</Text>
           </TouchableOpacity>
         </View>
-   
   </View>
 );}
 
