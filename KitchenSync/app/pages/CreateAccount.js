@@ -1,20 +1,40 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, Alert } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import HomePage from "./HomePage";
+import { FIREBASE_AUTH } from "../../FirebaseConfig";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 export default function CreateAccountScreen() {
-  const [email, setEmail] = useState("Email");
-  const [fullName, setFullName] = useState("Full Name");
-  const [username, setUsername] = useState("Username");
+  const [email, setEmail] = useState("");
+  const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
-  const [passwordFocused, setPasswordFocused] = useState(false);
-  const [confirmPasswordFocused, setConfirmPasswordFocused] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
+  const auth = FIREBASE_AUTH;
+
+  const signUp = async () => {
+    if (password !== confirmPassword) {
+      Alert.alert("Error", "Passwords do not match.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const response = await createUserWithEmailAndPassword(auth, email, password);
+      console.log(response);
+      Alert.alert("Success", "Account created successfully!");
+      navigation.navigate("Dashboard"); 
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Error", "Sign up failed: " + error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -30,34 +50,28 @@ export default function CreateAccountScreen() {
         style={styles.input}
         value={email}
         onChangeText={setEmail}
-        onFocus={() => email === "Email" && setEmail("")}
-        onBlur={() => email === "" && setEmail("Email")}
+        placeholder="Email"
+        placeholderTextColor="#666" 
+        autoCapitalize="none"
       />
 
       <TextInput
         style={styles.input}
         value={fullName}
         onChangeText={setFullName}
-        onFocus={() => fullName === "Full Name" && setFullName("")}
-        onBlur={() => fullName === "" && setFullName("Full Name")}
-      />
-
-      <TextInput
-        style={styles.input}
-        value={username}
-        onChangeText={setUsername}
-        onFocus={() => username === "Username" && setUsername("")}
-        onBlur={() => username === "" && setUsername("Username")}
+        placeholder="Full Name"
+        placeholderTextColor="#666" 
+        autoCapitalize="words"
       />
 
       <View style={styles.passwordContainer}>
         <TextInput
           style={styles.passwordInput}
-          value={passwordFocused || password ? password : "Password"}
+          value={password}
           onChangeText={setPassword}
-          onFocus={() => setPasswordFocused(true)}
-          onBlur={() => setPasswordFocused(false)}
-          secureTextEntry={passwordFocused && !passwordVisible}
+          placeholder="Password"
+          placeholderTextColor="#666"
+          secureTextEntry={!passwordVisible}
         />
         <TouchableOpacity onPress={() => setPasswordVisible(!passwordVisible)}>
           <MaterialIcons name={passwordVisible ? "visibility" : "visibility-off"} size={24} color="gray" />
@@ -67,20 +81,24 @@ export default function CreateAccountScreen() {
       <View style={styles.passwordContainer}>
         <TextInput
           style={styles.passwordInput}
-          value={confirmPasswordFocused || confirmPassword ? confirmPassword : "Confirm Password"}
+          value={confirmPassword}
           onChangeText={setConfirmPassword}
-          onFocus={() => setConfirmPasswordFocused(true)}
-          onBlur={() => setConfirmPasswordFocused(false)}
-          secureTextEntry={confirmPasswordFocused && !confirmPasswordVisible}
+          placeholder="Confirm Password"
+          placeholderTextColor="#666"
+          secureTextEntry={!confirmPasswordVisible}
         />
         <TouchableOpacity onPress={() => setConfirmPasswordVisible(!confirmPasswordVisible)}>
           <MaterialIcons name={confirmPasswordVisible ? "visibility" : "visibility-off"} size={24} color="gray" />
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Create Account</Text>
-      </TouchableOpacity>
+      {loading ? (
+        <ActivityIndicator size="large" color="#34A853" />
+      ) : (
+        <TouchableOpacity style={styles.button} onPress={signUp}>
+          <Text style={styles.buttonText}>Create Account</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
@@ -115,7 +133,7 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 25,
     marginVertical: 10,
-    color: "#000",
+    color: "#000", // Text color for user input
   },
   passwordContainer: {
     flexDirection: "row",
@@ -129,6 +147,7 @@ const styles = StyleSheet.create({
   },
   passwordInput: {
     flex: 1,
+    color: "#000", // Text color for user input
   },
   button: {
     backgroundColor: "#34A853",
@@ -156,3 +175,4 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
+
