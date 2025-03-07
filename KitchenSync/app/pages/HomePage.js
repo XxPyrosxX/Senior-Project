@@ -43,7 +43,7 @@ const HomePage = ({}) => {
   return (
 
     <View style={styles.container}>
-      <KeyboardAvoidingView behavior='padding'>
+      
         <View style={styles.logoContainer}>
           <Text style={styles.logoText}>
             KITCHEN<Text style={styles.syncText}>Sync</Text>
@@ -66,7 +66,6 @@ const HomePage = ({}) => {
           ) : (
           <>
           <Button title='Login' onPress={signIn} />
-          <Button title='CreateAccount' onPress={signUp} />
           </>
           )}
 
@@ -92,7 +91,7 @@ const HomePage = ({}) => {
             <Text style={styles.signupButtonText}>Create Account</Text>
           </TouchableOpacity>
         </View>
-    </KeyboardAvoidingView>
+   
   </View>
 );}
 
