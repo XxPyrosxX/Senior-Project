@@ -90,7 +90,7 @@ const Pantry = () => {
   return (
     <>
       <ImageBackground
-        source={require('../../assets/images/Pantry_bg.png')}
+        source={require('../../assets/images/kitchen_sync_bg.png')}
         style={styles.backgroundImage}
       />
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
