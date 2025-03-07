@@ -17,6 +17,7 @@ const Tab = createBottomTabNavigator();
 export default function TabsLayout() {
   return (
     <Tab.Navigator
+      initialRouteName='Dashboard' // Default screen
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
