@@ -103,8 +103,6 @@ export default function PantryItemDetails() {
         )}
       </View>
     </View>
-
-
     </>
     
   );
