@@ -1,6 +1,6 @@
 import React from "react";
 import {useRouter} from 'expo-router';
-import { View, Text, TouchableOpacity, StyleSheet, Image, Alert } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Image, ImageBackground, Alert } from "react-native";
 import { FIREBASE_AUTH } from "../../FirebaseConfig";
 import { signOut } from "firebase/auth";
 
@@ -20,77 +20,89 @@ const SettingsPage = ({}) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.heading}>Settings</Text>
-      <View style={styles.optionContainer}>
-        <TouchableOpacity style={styles.option}>
-          <Image
-            source={{ uri: "https://img.icons8.com/ios-filled/50/user-male-circle.png" }}
-            style={styles.icon}
-          />
-          <Text style={styles.optionText}>Account Settings</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.option}>
-          <Image
-            source={{ uri: "https://img.icons8.com/ios-filled/50/bell.png" }}
-            style={styles.icon}
-          />
-          <Text style={styles.optionText}>Notifications</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.option}>
-          <Image
-            source={{ uri: "https://img.icons8.com/ios-filled/50/visible.png" }}
-            style={styles.icon}
-          />
-          <Text style={styles.optionText}>Appearance</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.option}>
-          <Image
-            source={{ uri: "https://img.icons8.com/ios-filled/50/lock.png" }}
-            style={styles.icon}
-          />
-          <Text style={styles.optionText}>Privacy and Security</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.option}>
-          <Image
-            source={{ uri: "https://img.icons8.com/ios-filled/50/headphones.png" }}
-            style={styles.icon}
-          />
-          <Text style={styles.optionText}>Help and Support</Text>
-        </TouchableOpacity>
-        {/* About */}
-        <TouchableOpacity 
-          style={styles.option}
-          onPress={() => router.push('/pages/settings/About')}
-        > 
-          <Image
-            source={{ uri: "https://img.icons8.com/ios-filled/50/help.png" }}
-            style={styles.icon}
-          />
-          <Text style={styles.optionText}>About</Text>
-        </TouchableOpacity>
-        
-        {/* Logout */}
-        <TouchableOpacity
-          style={styles.option}
-          onPress={handleLogout} // Call the logout function
-        >
-          <Image
-            source={{ uri: "https://img.icons8.com/ios-filled/50/exit.png" }} // Updated icon for logout
-            style={styles.icon}
-          />
-          <Text style={styles.optionText}>Logout</Text>
-        </TouchableOpacity>
-
-      </View>
-      </View>
+    <>
+      <ImageBackground
+              source={require('../../assets/images/kitchen_sync_bg.png')}
+              style={styles.backgroundImage}
+      />  
+      <View style={styles.container}>
+        <Text style={styles.heading}>Settings</Text>
+        <View style={styles.optionContainer}>
+          <TouchableOpacity style={styles.option}>
+            <Image
+              source={{ uri: "https://img.icons8.com/ios-filled/50/user-male-circle.png" }}
+              style={styles.icon}
+            />
+            <Text style={styles.optionText}>Account Settings</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.option}>
+            <Image
+              source={{ uri: "https://img.icons8.com/ios-filled/50/bell.png" }}
+              style={styles.icon}
+            />
+            <Text style={styles.optionText}>Notifications</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.option}>
+            <Image
+              source={{ uri: "https://img.icons8.com/ios-filled/50/visible.png" }}
+              style={styles.icon}
+            />
+            <Text style={styles.optionText}>Appearance</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.option}>
+            <Image
+              source={{ uri: "https://img.icons8.com/ios-filled/50/lock.png" }}
+              style={styles.icon}
+            />
+            <Text style={styles.optionText}>Privacy and Security</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.option}>
+            <Image
+              source={{ uri: "https://img.icons8.com/ios-filled/50/headphones.png" }}
+              style={styles.icon}
+            />
+            <Text style={styles.optionText}>Help and Support</Text>
+          </TouchableOpacity>
+          {/* About */}
+          <TouchableOpacity 
+            style={styles.option}
+            onPress={() => router.push('/pages/settings/About')}
+          > 
+            <Image
+              source={{ uri: "https://img.icons8.com/ios-filled/50/help.png" }}
+              style={styles.icon}
+            />
+            <Text style={styles.optionText}>About</Text>
+          </TouchableOpacity>
+          
+          {/* Logout */}
+          <TouchableOpacity
+            style={styles.option}
+            onPress={handleLogout} // Call the logout function
+          >
+            <Image
+              source={{ uri: "https://img.icons8.com/ios-filled/50/exit.png" }} // Updated icon for logout
+              style={styles.icon}
+            />
+            <Text style={styles.optionText}>Logout</Text>
+          </TouchableOpacity>
+        </View>
+        </View>
+    </>
+    
   );
 };
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+  },
   container: {
     flex: 1,
-    backgroundColor: "#FFD580",
+    //backgroundColor: "#FFD580",
   },
   heading: {
     fontSize: 36,

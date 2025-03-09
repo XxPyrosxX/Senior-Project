@@ -27,7 +27,6 @@ export default function CreateAccountScreen() {
       const response = await createUserWithEmailAndPassword(auth, email, password);
       console.log(response);
       Alert.alert("Success", "Account created successfully!");
-      navigation.navigate("Dashboard"); 
     } catch (error) {
       console.log(error);
       Alert.alert("Error", "Sign up failed: " + error.message);
@@ -41,7 +40,7 @@ export default function CreateAccountScreen() {
       <Text style={styles.logo}>KITCHEN <Text style={styles.sync}>Sync</Text></Text>
       <Text style={styles.title}>CREATE YOUR ACCOUNT</Text>
 
-      {/* Back Button at the top left */}
+      {/* Back Button */}
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
         <Text style={styles.backText}>Back</Text>
       </TouchableOpacity>
@@ -133,7 +132,7 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 25,
     marginVertical: 10,
-    color: "#000", // Text color for user input
+    color: "#000",
   },
   passwordContainer: {
     flexDirection: "row",
@@ -147,7 +146,7 @@ const styles = StyleSheet.create({
   },
   passwordInput: {
     flex: 1,
-    color: "#000", // Text color for user input
+    color: "#000",
   },
   button: {
     backgroundColor: "#34A853",
