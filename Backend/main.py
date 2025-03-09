@@ -1,10 +1,14 @@
+# Imports
 from PIL import Image
 import pytesseract
 import re
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
+# Configure Tesseract OCR executable path
+# Note: Ensure that Tesseract is installed and update the path accordingly
 pytesseract.pytesseract.tesseract_cmd = r'C:\Users\Rohun\AppData\Local\Programs\Tesseract-OCR\tesseract.exe'
 
+# Function to perform OCR on an image and extract text
 def get_text_from_image(file_path):
     image = Image.open(file_path)
 
@@ -14,13 +18,15 @@ def get_text_from_image(file_path):
     # Print the extracted text
     return text
 
-
+# Function to parse receipt text and extract item names with their prices
+#TODO: Finish this method to correctly parse all receipt types.
 def parse_receipt(receipt_text: str) -> (dict, float):
     items = {}
     total_cost = 0.0
     lines = receipt_text.splitlines()
 
-    # Pattern to match items and their prices
+    # Works on test_receipt.png only. Still needs changing to adapt all receipt types
+    # Regular expression pattern to match item names and prices
     item_price_pattern = re.compile(r'^(.*?\b)\s*\$([0-9]+\.[0-9]{2})$')
     total_pattern = re.compile(r'TOTAL.*\$([0-9]+\.[0-9]{2})')
 
@@ -44,6 +50,8 @@ def parse_receipt(receipt_text: str) -> (dict, float):
 
     return items, total_cost
 
+# Function to parse receipt using a LLM: Falcon-7B language model
+#TODO: Finish this method to correctly parse.
 def get_parsed_results_falcon(question):
 
     model_name = "tiiuae/falcon-7b-instruct"
@@ -62,7 +70,7 @@ def get_parsed_results_falcon(question):
 
     return tokenizer.decode(outputs[0], skip_special_tokens=True)
 
-
+# Main function to process the receipt image
 def main():
     file_path = "test_receipt_2.png"
     receipt_results = get_text_from_image(file_path)
@@ -70,7 +78,6 @@ def main():
         Here is the receipt: """ + receipt_results
     #parsed_output = get_parsed_results_falcon(question)
     print(receipt_results)
-
 
 if __name__ == '__main__':
     main()
