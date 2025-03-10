@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ImageBackground, FlatList, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { returnItems } from './Pantry';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const API_KEY = '9edb43dda3d64e96bae0e88cc7dde1c0';
 const BASE_URL = 'https://api.spoonacular.com/recipes/findByIngredients';
@@ -14,14 +14,17 @@ const PantryRecipes = () => {
 
   useEffect(() => {
     const fetchRecipes = async () => {
+      const returnItems = await AsyncStorage.getItem('pantryItems');
       try {
         if (returnItems.length === 0) {
           setLoading(false);
           return;
         }
-        const ingredients = returnItems.map(item => item.title).join(',');
+        const items = JSON.parse(returnItems);
+        const ingredients = items.map(item => item.title).join(',');
         const response = await fetch(`${BASE_URL}?ingredients=${ingredients}&number=20&apiKey=${API_KEY}`);
         const data = await response.json();
+        console.log(data);
         setRecipes(data);
       } catch (error) {
         console.error('Error fetching recipes:', error);

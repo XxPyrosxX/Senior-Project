@@ -39,6 +39,7 @@ const Pantry = () => {
     const loadItems = async () => {
       try {
         const storedItems = await AsyncStorage.getItem('pantryItems');
+        console.log(storedItems);
         if (storedItems) {
           setItems(JSON.parse(storedItems));
         }
@@ -322,5 +323,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export { returnItems };
 export default Pantry;
