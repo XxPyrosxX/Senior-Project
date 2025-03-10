@@ -39,7 +39,6 @@ const Pantry = () => {
     const loadItems = async () => {
       try {
         const storedItems = await AsyncStorage.getItem('pantryItems');
-        console.log(storedItems);
         if (storedItems) {
           setItems(JSON.parse(storedItems));
         }
@@ -81,6 +80,16 @@ const Pantry = () => {
       setNewItem('');
       setNewQuantity('');
       setModalVisible(false);
+    }
+  };
+
+  const handleDeleteItem = async (id) => {
+    const updatedItems = items.filter(item => item.id !== id);
+    setItems(updatedItems);
+    try {
+      await AsyncStorage.setItem('pantryItems', JSON.stringify(updatedItems));
+    } catch (error) {
+      console.error('Error deleting pantry item:', error);
     }
   };
 
@@ -179,7 +188,13 @@ const Pantry = () => {
               <Text style={styles.dateAdded}>
                 Added on: {new Date(item.dateAdded).toLocaleDateString()}
               </Text>
-            </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.deleteButton}
+                onPress={() => handleDeleteItem(item.id)}
+            >
+          <Text style={styles.deleteButtonText}>Delete</Text>
+        </TouchableOpacity>
+      </TouchableOpacity>
           ))}
         </View>
       </ScrollView>
@@ -320,6 +335,16 @@ const styles = StyleSheet.create({
   cancelButtonText: {
     color: 'white',
     fontSize: 16,
+  },
+  deleteButton: {
+    backgroundColor: '#FF6347',
+    borderRadius: 5,
+    padding: 5,
+    marginTop: 5,
+  },
+  deleteButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
   },
 });
 
