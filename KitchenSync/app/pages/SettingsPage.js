@@ -1,18 +1,18 @@
 import React from "react";
-import {useRouter} from 'expo-router';
+import { useNavigation } from "@react-navigation/native";
 import { View, Text, TouchableOpacity, StyleSheet, Image, ImageBackground, Alert } from "react-native";
 import { FIREBASE_AUTH } from "../../FirebaseConfig";
 import { signOut } from "firebase/auth";
 
 const SettingsPage = ({}) => {
-  const router = useRouter();
+  const navigation = useNavigation();
   const auth = FIREBASE_AUTH;
 
   const handleLogout = async () => {
     try {
       await signOut(auth); // Sign out the user
       Alert.alert("Success", "You have been logged out.");
-      router.push('/pages/HomePage'); // Redirect to the HomePage or login screen
+      navigation.navigate('HomePage'); // Redirect to the HomePage or login screen
     } catch (error) {
       console.error("Logout failed:", error);
       Alert.alert("Error", "Logout failed. Please try again.");
@@ -66,7 +66,7 @@ const SettingsPage = ({}) => {
           {/* About */}
           <TouchableOpacity 
             style={styles.option}
-            onPress={() => router.push('/pages/settings/About')}
+            onPress={() => navigation.navigate('About')}
           > 
             <Image
               source={{ uri: "https://img.icons8.com/ios-filled/50/help.png" }}
