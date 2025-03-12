@@ -6,11 +6,22 @@ import Camera from './pages/Camera';
 import SettingsPage from './pages/SettingsPage';
 import Pantry from './pages/Pantry';
 import PantryRecipes from './pages/PantryRecipes';
+import Recipes from './pages/Recipes';
+import RecipeDetails from './pages/RecipeDetails';
 import ShoppingList from './pages/ShoppingList';
 import ItemInfo from './pages/ItemInfo';
 import About from './pages/settings/About';
 import createAccount from './pages/CreateAccount';
 import Login from './pages/HomePage';
+import { LogBox } from 'react-native';
+
+// Ignore specific warning messages
+LogBox.ignoreLogs([
+  'bound renderChildren: Support for defaultProps will be removed from function components',
+  'TRenderEngineProvider: Support for defaultProps will be removed from function components',
+  'MemoizedTNodeRenderer: Support for defaultProps will be removed from memo components',
+  'TNodeChildrenRenderer: Support for defaultProps will be removed from function components'
+]);
 
 const Tab = createBottomTabNavigator();
 
@@ -83,6 +94,16 @@ export default function TabsLayout() {
       <Tab.Screen
         name="PantryRecipes"
         component={PantryRecipes}
+        options={{ tabBarItemStyle: { display: "none" } }}
+      />
+      <Tab.Screen
+        name="Recipes"
+        component={Recipes}
+        options={{ tabBarItemStyle: { display: "none" } }}
+      />
+      <Tab.Screen
+        name="RecipeDetails"
+        component={RecipeDetails}
         options={{ tabBarItemStyle: { display: "none" } }}
       />
       <Tab.Screen

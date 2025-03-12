@@ -64,9 +64,7 @@ export default function Dashboard() {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.button}
-              onPress={() =>
-                Alert.alert('Coming Soon', 'This feature is under development.')
-              }
+              onPress={() => navigation.navigate('Recipes')}
             >
               <Image
                 source={require('../../assets/images/cravings.png')}
