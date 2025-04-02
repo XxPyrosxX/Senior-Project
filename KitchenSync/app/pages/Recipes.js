@@ -16,6 +16,7 @@ const Recipes = () => {
   const navigation = useNavigation();
 
   // Fetch recipes (random by default, filtered if searchQuery exists)
+  // Cravings recepie 
   useEffect(() => {
     const fetchRecipes = async () => {
       setLoading(true);

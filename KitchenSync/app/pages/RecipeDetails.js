@@ -7,6 +7,7 @@ import { useWindowDimensions } from 'react-native';
 const API_KEY = '9edb43dda3d64e96bae0e88cc7dde1c0';
 const BASE_URL = 'https://api.spoonacular.com/recipes';
 
+// craving menu recepies 
 const RecipeDetails = () => {
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
