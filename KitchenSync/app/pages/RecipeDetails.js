@@ -92,13 +92,15 @@ const styles = StyleSheet.create({
   backButton: {
     position: 'absolute',
     top: 30,
-    backgroundColor: 'rgba(255,255,255,0.7)',
+    backgroundColor: '#8B0000',
     borderRadius: 5,
-    zIndex: 10,
-  },
+    alignSelf: 'flex-start',
+    padding: 5,
+   },
   backText: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: '#FFF',
   },
   recipeImage: {
     width: '100%',
@@ -106,6 +108,7 @@ const styles = StyleSheet.create({
     marginTop: 60,
     borderRadius: 10,
     marginBottom: 15,
+    paddingTop: 10,
   },
   title: {
     fontSize: 24,

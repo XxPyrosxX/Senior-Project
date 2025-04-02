@@ -40,7 +40,7 @@ const PantryRecipes = () => {
   );
 
   return (
-    <ImageBackground source={require('../../assets/images/Pantry_bg.png')} style={styles.backgroundImage}>
+    <ImageBackground source={require('../../assets/images/kitchen_sync_bg.png')} style={styles.backgroundImage}>
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
         <Text style={styles.backText}>Back</Text>
       </TouchableOpacity>
@@ -68,10 +68,13 @@ const PantryRecipes = () => {
           data={filteredRecipes}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <View style={styles.recipeCard}>
+            <TouchableOpacity 
+              style={styles.recipeCard} 
+              onPress={() => navigation.navigate('PRecipeDetails', { id: item.id })}
+            >
               <Image source={{ uri: item.image }} style={styles.recipeImage} />
               <Text style={styles.recipeTitle}>{item.title}</Text>
-            </View>
+            </TouchableOpacity>
           )}
           ListEmptyComponent={<Text style={styles.emptyMessage}>No recipes found.</Text>}
         />

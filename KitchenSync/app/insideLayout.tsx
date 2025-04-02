@@ -6,6 +6,7 @@ import Camera from './pages/Camera';
 import SettingsPage from './pages/SettingsPage';
 import Pantry from './pages/Pantry';
 import PantryRecipes from './pages/PantryRecipes';
+import PRecipeDetails from './pages/PantryRecipeDetails';
 import Recipes from './pages/Recipes';
 import RecipeDetails from './pages/RecipeDetails';
 import ShoppingList from './pages/ShoppingList';
@@ -94,6 +95,11 @@ export default function TabsLayout() {
       <Tab.Screen
         name="PantryRecipes"
         component={PantryRecipes}
+        options={{ tabBarItemStyle: { display: "none" } }}
+      />
+      <Tab.Screen
+        name="PRecipeDetails"
+        component={PRecipeDetails}
         options={{ tabBarItemStyle: { display: "none" } }}
       />
       <Tab.Screen
