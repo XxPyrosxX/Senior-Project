@@ -36,10 +36,43 @@ export default function ReceiptCamera() {
     );
   }
 
-  // Capture a picture.
+  const sendImageToServer = async (imageUri: string) => {
+    try {
+      console.log('Sending image:', imageUri);
+      const formData = new FormData();
+      formData.append('file', {
+        uri: imageUri,
+        name: 'image.jpg',
+        type: 'image/jpeg',
+      } as any);
+  
+      const response = await fetch('http://10.136.103.60:8000/ocr', {
+        method: 'POST',
+        body: formData,
+      });
+  
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Server error:', response.status, errorText);
+      } else {
+        const json = await response.json();
+        console.log('Server response:', json);
+        console.log('Extracted Text:', json.text);
+      }
+    } catch (error) {
+      console.error('Error sending image:', error);
+    }
+  };
+
+  // Capture a picture and send it to the server
   const takePicture = async () => {
     const photo = await cameraRef.current?.takePictureAsync();
-    setUri(photo?.uri ?? null);
+    if (photo?.uri) {
+      setUri(photo.uri); // Set URI to display the preview
+      await sendImageToServer(photo.uri); // Send the image to the server
+    } else {
+      setUri(null);
+    }
   };
 
   // Toggle between front and back cameras.
