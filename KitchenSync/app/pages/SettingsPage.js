@@ -3,10 +3,12 @@ import {useRouter} from 'expo-router';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Alert } from "react-native";
 import { FIREBASE_AUTH } from "../../FirebaseConfig";
 import { signOut } from "firebase/auth";
+import { useNavigation } from "@react-navigation/native";
 
 const SettingsPage = ({}) => {
   const router = useRouter();
   const auth = FIREBASE_AUTH;
+  const navigation = useNavigation();
 
   const handleLogout = async () => {
     try {
@@ -23,12 +25,15 @@ const SettingsPage = ({}) => {
     <View style={styles.container}>
       <Text style={styles.heading}>Settings</Text>
       <View style={styles.optionContainer}>
-        <TouchableOpacity style={styles.option}>
+        <TouchableOpacity 
+          style={styles.option}
+          onPress={() => navigation.navigate('AccountSettings')}
+          >
           <Image
             source={{ uri: "https://img.icons8.com/ios-filled/50/user-male-circle.png" }}
             style={styles.icon}
           />
-          <Text style={styles.optionText}>Account Settings</Text>
+          <Text style={styles.optionText}>Account Information</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.option}>
           <Image
@@ -61,7 +66,7 @@ const SettingsPage = ({}) => {
         {/* About */}
         <TouchableOpacity 
           style={styles.option}
-          onPress={() => router.push('/pages/settings/About')}
+          onPress={() => navigation.navigate('About')}
         > 
           <Image
             source={{ uri: "https://img.icons8.com/ios-filled/50/help.png" }}

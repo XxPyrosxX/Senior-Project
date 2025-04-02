@@ -11,6 +11,7 @@ import ItemInfo from './pages/ItemInfo';
 import About from './pages/settings/About';
 import createAccount from './pages/CreateAccount';
 import Login from './pages/HomePage';
+import AccountSettings from './pages/settings/AccountInformation';
 
 const Tab = createBottomTabNavigator();
 
@@ -109,6 +110,11 @@ export default function TabsLayout() {
         component={Login}
         options={{ tabBarItemStyle: { display: "none" } }}
         />
+      <Tab.Screen
+        name="AccountSettings"
+        component={AccountSettings}
+        options={{tabBarItemStyle: {display: "none"}}}
+      />
     </Tab.Navigator>
   );
 }

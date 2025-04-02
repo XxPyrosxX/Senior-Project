@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth"; // Import Firebase Authentication
 import { getAnalytics } from "firebase/analytics";
+import { getFirestore } from "firebase/firestore";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -16,10 +17,12 @@ const firebaseConfig = {
 // Initialize Firebase
 const FIREBASE_APP = initializeApp(firebaseConfig);
 const FIREBASE_AUTH = getAuth(FIREBASE_APP); // Initialize Authentication
-//const FIREBASE_DB = getFirestore(FIREBASE_APP);
+const FIREBASE_DB = getFirestore(FIREBASE_APP);
 //const analytics = getAnalytics(FIREBASE_APP);
 
 console.log("Firebase initialized:", FIREBASE_APP);
 console.log("Firebase Auth initialized:", FIREBASE_AUTH);
 
-export { FIREBASE_APP, FIREBASE_AUTH };
+
+
+export { FIREBASE_APP, FIREBASE_AUTH, FIREBASE_DB };

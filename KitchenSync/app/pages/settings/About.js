@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ImageBackground, ScrollView, Modal, Button } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, ImageBackground} from "react-native";
 
 const About = () => {
 
