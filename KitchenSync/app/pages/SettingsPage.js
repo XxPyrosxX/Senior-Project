@@ -28,12 +28,13 @@ const SettingsPage = ({}) => {
       <View style={styles.container}>
         <Text style={styles.heading}>Settings</Text>
         <View style={styles.optionContainer}>
-          <TouchableOpacity style={styles.option}>
+          <TouchableOpacity style={styles.option}
+          onPress={() => navigation.navigate('AccountSettings')}>
             <Image
               source={{ uri: "https://img.icons8.com/ios-filled/50/user-male-circle.png" }}
               style={styles.icon}
             />
-            <Text style={styles.optionText}>Account Settings</Text>
+            <Text style={styles.optionText}>Account Information</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.option}>
             <Image

@@ -15,6 +15,7 @@ import About from './pages/settings/About';
 import createAccount from './pages/CreateAccount';
 import Login from './pages/HomePage';
 import { LogBox } from 'react-native';
+import AccountSettings from './pages/settings/AccountInformation';
 
 // Ignore specific warning messages
 LogBox.ignoreLogs([
@@ -137,6 +138,11 @@ export default function TabsLayout() {
         component={Login}
         options={{ tabBarItemStyle: { display: "none" } }}
         />
+      <Tab.Screen
+        name="AccountSettings"
+        component={AccountSettings}
+        options={{tabBarItemStyle: {display: "none"}}}
+      />
     </Tab.Navigator>
   );
 }
