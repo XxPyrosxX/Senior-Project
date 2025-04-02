@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator, ImageBackground } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
 
 const CALORIENINJA_API_KEY = "LLew1ywTsyGT1GAwBl0zHg==n1YiL8iF91CWY2Bq";
@@ -70,6 +70,12 @@ export default function PantryItemDetails() {
   }, [route.params]);
 
   return (
+    <>
+    <ImageBackground
+            source={require('../../assets/images/kitchen_sync_bg.png')}
+            style={styles.backgroundImage}
+    />
+
     <View style={styles.container}>
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Pantry')}>
         <Text style={styles.backText}>Back</Text>
@@ -97,14 +103,22 @@ export default function PantryItemDetails() {
         )}
       </View>
     </View>
+    </>
+    
   );
 }
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+  },
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#FFFACD',
+    //backgroundColor: '#FFFACD',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -113,7 +127,7 @@ const styles = StyleSheet.create({
     top: 40,
     left: 10,
     padding: 10,
-    backgroundColor: '#FFFACD',
+    backgroundColor: '#fffef1',
     borderRadius: 5,
     zIndex: 10,
   },

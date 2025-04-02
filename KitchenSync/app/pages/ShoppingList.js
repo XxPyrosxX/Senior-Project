@@ -57,7 +57,7 @@ const ShoppingList = () => {
 
     return (
         <>
-            <ImageBackground source={require('../../assets/images/Pantry_bg.png')} style={styles.backgroundImage} />
+            <ImageBackground source={require('../../assets/images/kitchen_sync_bg.png')} style={styles.backgroundImage} />
             <View style={styles.container}>
                 <View style={styles.logoContainer}>
                     <Text style={styles.logoText}>

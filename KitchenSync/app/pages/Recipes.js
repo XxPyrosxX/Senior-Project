@@ -1,76 +1,84 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ImageBackground, FlatList, ActivityIndicator } from 'react-native';
+import { 
+  View, Text, TextInput, TouchableOpacity, 
+  StyleSheet, Image, ImageBackground, FlatList, 
+  ActivityIndicator 
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const API_KEY = '9edb43dda3d64e96bae0e88cc7dde1c0';
-const BASE_URL = 'https://api.spoonacular.com/recipes/findByIngredients';
+const BASE_URL = 'https://api.spoonacular.com/recipes/complexSearch';
 
-const PantryRecipes = () => {
+const Recipes = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
 
+  // Fetch recipes (random by default, filtered if searchQuery exists)
+  // Cravings recepie 
   useEffect(() => {
     const fetchRecipes = async () => {
-      const returnItems = await AsyncStorage.getItem('pantryItems');
+      setLoading(true);
+  
       try {
-        if (returnItems.length === 0) {
-          setLoading(false);
-          return;
-        }
-        const items = JSON.parse(returnItems);
-        const ingredients = items.map(item => item.title).join(',');
-        const response = await fetch(`${BASE_URL}?ingredients=${ingredients}&number=20&apiKey=${API_KEY}`);
+        const queryParam = searchQuery 
+          ? `&query=${encodeURIComponent(searchQuery)}` 
+          : '';
+  
+        const response = await fetch(`${BASE_URL}?number=20${queryParam}&apiKey=${API_KEY}`);
         const data = await response.json();
-        console.log(data);
-        setRecipes(data);
+  
+        setRecipes(data.results || []);
       } catch (error) {
         console.error('Error fetching recipes:', error);
+        setRecipes([]);
       } finally {
         setLoading(false);
       }
     };
+  
     fetchRecipes();
-  }, []);
-
-  const filteredRecipes = recipes.filter(recipe =>
-    recipe.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
+  }, [searchQuery]);
+  
   return (
-    <ImageBackground source={require('../../assets/images/kitchen_sync_bg.png')} style={styles.backgroundImage}>
+    <ImageBackground
+      source={require('../../assets/images/kitchen_sync_bg.png')}
+      style={styles.backgroundImage}
+    >
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
         <Text style={styles.backText}>Back</Text>
       </TouchableOpacity>
 
       <View style={styles.logoContainer}>
-        <Text style={styles.logoText}>KITCHEN<Text style={styles.syncText}>Sync</Text></Text>
+        <Text style={styles.logoText}>
+          KITCHEN<Text style={styles.syncText}>Sync</Text>
+        </Text>
       </View>
 
+      {/* Search Bar */}
       <TextInput
         style={styles.searchBar}
         placeholder="Search recipes..."
-        placeholderTextColor="#666"
         value={searchQuery}
         onChangeText={setSearchQuery}
       />
 
       <Text style={styles.recipeCount}>
-        {filteredRecipes.length} {filteredRecipes.length === 1 ? 'Recipe' : 'Recipes'} Found
+        {recipes.length} {recipes.length === 1 ? 'Recipe' : 'Recipes'} Found
       </Text>
 
+      {/* Loading or Recipes List */}
       {loading ? (
-        <ActivityIndicator size="large" color="#8B0000" style={styles.loadingIndicator} />
+        <ActivityIndicator size="large" color="#8B0000" style={{ marginTop: 20 }} />
       ) : (
         <FlatList
-          data={filteredRecipes}
+          data={recipes}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <TouchableOpacity 
-              style={styles.recipeCard} 
-              onPress={() => navigation.navigate('PRecipeDetails', { id: item.id })}
+            <TouchableOpacity
+              style={styles.recipeContainer}
+              onPress={() => navigation.navigate('RecipeDetails', { id: item.id })}
             >
               <Image source={{ uri: item.image }} style={styles.recipeImage} />
               <Text style={styles.recipeTitle}>{item.title}</Text>
@@ -89,89 +97,70 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     alignItems: 'center',
-    backgroundColor: '#f8f8f8',
   },
   backButton: {
     position: 'absolute',
     top: 40,
     left: 10,
     padding: 10,
-    backgroundColor: 'rgba(255,255,255,0.8)',
+    backgroundColor: 'rgba(255,255,255,0.7)',
     borderRadius: 5,
     zIndex: 10,
   },
   backText: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#333',
   },
   logoContainer: {
-    marginTop: 50,
+    marginTop: 30,
     alignItems: 'center',
   },
   logoText: {
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: 'bold',
     color: '#8B0000',
+    marginTop: 20,
   },
   syncText: {
     color: '#000',
   },
   searchBar: {
     width: '90%',
-    height: 45,
-    backgroundColor: '#FFF',
-    borderRadius: 10,
-    paddingHorizontal: 15,
+    height: 40,
+    backgroundColor: '#D3D3D3',
+    borderRadius: 8,
+    paddingHorizontal: 10,
     marginTop: 20,
-    fontSize: 16,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 3,
   },
   recipeCount: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: 'bold',
-    color: '#444',
+    color: '#333',
     textAlign: 'center',
     marginTop: 10,
     marginBottom: 10,
   },
-  loadingIndicator: {
-    marginTop: 20,
-  },
-  recipeCard: {
-    backgroundColor: '#fff',
-    marginVertical: 10,
-    marginHorizontal: 20,
-    padding: 15,
-    borderRadius: 10,
+  recipeContainer: {
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 5,
-    elevation: 4,
+    marginTop: 15,
   },
   recipeImage: {
-    width: 120,
-    height: 120,
+    width: 100,
+    height: 100,
     borderRadius: 10,
   },
   recipeTitle: {
-    marginTop: 10,
+    marginTop: 8,
     fontSize: 16,
-    fontWeight: 'bold',
+    marginLeft: 20,
+    marginRight: 20,
     textAlign: 'center',
-    color: '#333',
   },
   emptyMessage: {
     marginTop: 20,
     fontSize: 18,
     color: 'gray',
-    textAlign: 'center',
   },
 });
 
-export default PantryRecipes;
+export default Recipes;

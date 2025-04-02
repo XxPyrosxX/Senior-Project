@@ -83,6 +83,16 @@ const Pantry = () => {
     }
   };
 
+  const handleDeleteItem = async (id) => {
+    const updatedItems = items.filter(item => item.id !== id);
+    setItems(updatedItems);
+    try {
+      await AsyncStorage.setItem('pantryItems', JSON.stringify(updatedItems));
+    } catch (error) {
+      console.error('Error deleting pantry item:', error);
+    }
+  };
+
   const filteredItems = searchQuery
       ? items.filter(item => item.title.toLowerCase().includes(searchQuery.toLowerCase()))
       : items;
@@ -90,7 +100,7 @@ const Pantry = () => {
   return (
     <>
       <ImageBackground
-        source={require('../../assets/images/Pantry_bg.png')}
+        source={require('../../assets/images/kitchen_sync_bg.png')}
         style={styles.backgroundImage}
       />
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
@@ -178,7 +188,13 @@ const Pantry = () => {
               <Text style={styles.dateAdded}>
                 Added on: {new Date(item.dateAdded).toLocaleDateString()}
               </Text>
-            </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.deleteButton}
+                onPress={() => handleDeleteItem(item.id)}
+            >
+          <Text style={styles.deleteButtonText}>Delete</Text>
+        </TouchableOpacity>
+      </TouchableOpacity>
           ))}
         </View>
       </ScrollView>
@@ -320,7 +336,16 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
   },
+  deleteButton: {
+    backgroundColor: '#FF6347',
+    borderRadius: 5,
+    padding: 5,
+    marginTop: 5,
+  },
+  deleteButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
 });
 
-export { returnItems };
 export default Pantry;

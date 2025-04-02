@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Alert, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert, Image, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 
@@ -7,83 +7,91 @@ export default function Dashboard() {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.container}>
-      <View style={styles.rowsContainer}>
-        {/* Top Row */}
-        <View style={styles.row}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('Pantry')}
-          >
-            <Image
-              source={require('../../assets/images/kitchen_stock_icon.png')}
-              style={{ width: 150, height: 150 }}
-            />
-            <Text style={styles.buttonText}>
-              Kitchen{"\n"}Stock
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('PantryRecipes')}
-          >
-            <Image
-              source={require('../../assets/images/ready_to_cook.png')}
-              style={{ width: 150, height: 150 }}
-            />
-            <Text style={styles.buttonText}>
-              Meal{"\n"}Ideas
-            </Text>
-          </TouchableOpacity>
-        </View>
+    <>
+      <ImageBackground source={require('../../assets/images/kitchen_sync_bg.png')} style={styles.backgroundImage} />
+      <View style={styles.container}>
+        <View style={styles.rowsContainer}>
+          {/* Top Row */}
+          <View style={styles.row}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigation.navigate('Pantry')}
+            >
+              <Image
+                source={require('../../assets/images/kitchen_stock_icon.png')}
+                style={{ width: 150, height: 150 }}
+              />
+              <Text style={styles.buttonText}>
+                Kitchen{"\n"}Stock
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigation.navigate('PantryRecipes')}
+            >
+              <Image
+                source={require('../../assets/images/ready_to_cook.png')}
+                style={{ width: 150, height: 150 }}
+              />
+              <Text style={styles.buttonText}>
+                Meal{"\n"}Ideas
+              </Text>
+            </TouchableOpacity>
+          </View>
 
-        {/* Logo in the middle */}
-        <View style={styles.logoContainer}>
-          <View style={styles.logoBox}>
-            <Text style={styles.logo}>
-              KITCHEN<Text style={styles.syncText}>Sync</Text>
-            </Text>
+          {/* Logo in the middle */}
+          <View style={styles.logoContainer}>
+            <View style={styles.logoBox}>
+              <Text style={styles.logo}>
+                KITCHEN<Text style={styles.syncText}>Sync</Text>
+              </Text>
+            </View>
+          </View>
+
+          {/* Bottom Row */}
+          <View style={styles.row}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigation.navigate('ShoppingList')}
+            >
+              <Image
+                source={require('../../assets/images/grocery.png')}
+                style={{ width: 175, height: 150 }}
+              />
+              <Text style={styles.buttonText}>
+                Grocery{"\n"}List
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigation.navigate('Recipes')}
+            >
+              <Image
+                source={require('../../assets/images/cravings.png')}
+                style={{ width: 125, height: 150 }}
+              />
+              <Text style={styles.buttonText}>
+                Cravings{"\n"}Menu
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
-
-        {/* Bottom Row */}
-        <View style={styles.row}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('ShoppingList')}
-          >
-            <Image
-              source={require('../../assets/images/grocery.png')}
-              style={{ width: 175, height: 150 }}
-            />
-            <Text style={styles.buttonText}>
-              Grocery{"\n"}List
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() =>
-              Alert.alert('Coming Soon', 'This feature is under development.')
-            }
-          >
-            <Image
-              source={require('../../assets/images/cravings.png')}
-              style={{ width: 125, height: 150 }}
-            />
-            <Text style={styles.buttonText}>
-              Cravings{"\n"}Menu
-            </Text>
-          </TouchableOpacity>
-        </View>
       </View>
-    </View>
+    </>
+    
   );
 }
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+  },
   container: {
     flex: 1,
-    backgroundColor: '#FFFACD',
+    //backgroundColor: '#FFFACD',
     padding: 10,
   },
   rowsContainer: {
@@ -103,7 +111,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: '#006400',
     borderWidth: 2,
-    backgroundColor: '#FFD580',
+    backgroundColor: 'rgba(255, 255, 252, 0.8)',
     borderRadius: 15,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
@@ -126,7 +134,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderColor: '#006400',
     borderWidth: 2,
-    backgroundColor: '#FFD580',
+    backgroundColor: 'rgba(255, 255, 252, 0.8)',
     borderRadius: 15,
     marginVertical: -25,
     shadowColor: '#000',
