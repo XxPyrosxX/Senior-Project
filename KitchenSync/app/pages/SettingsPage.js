@@ -3,7 +3,6 @@ import { useNavigation } from "@react-navigation/native";
 import { View, Text, TouchableOpacity, StyleSheet, Image, ImageBackground, Alert } from "react-native";
 import { FIREBASE_AUTH } from "../../FirebaseConfig";
 import { signOut } from "firebase/auth";
-import { useNavigation } from "@react-navigation/native";
 
 const SettingsPage = ({}) => {
   const navigation = useNavigation();
