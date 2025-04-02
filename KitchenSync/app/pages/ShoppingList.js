@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, StyleSheet, ImageBackground, FlatList, Button, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, StyleSheet, ImageBackground, FlatList, TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
+import { AntDesign } from "@expo/vector-icons"; // Icons
 
 const ShoppingList = () => {
     const [item, setItem] = useState('');
     const [list, setList] = useState([]);
-    const navigation = useNavigation(); // Use navigation hook
+    const navigation = useNavigation();
 
-    // Load saved list from AsyncStorage when component mounts
     useEffect(() => {
         const loadList = async () => {
             try {
@@ -23,7 +23,6 @@ const ShoppingList = () => {
         loadList();
     }, []);
 
-    // Save list to AsyncStorage whenever it changes
     useEffect(() => {
         const saveList = async () => {
             try {
@@ -51,34 +50,44 @@ const ShoppingList = () => {
     const renderItem = ({ item }) => (
         <View style={styles.itemContainer}>
             <Text style={styles.itemText}>{item.name}</Text>
-            <Button title="Delete" onPress={() => deleteItem(item.id)} />
+            <TouchableOpacity onPress={() => deleteItem(item.id)} style={styles.deleteButton}>
+                <AntDesign name="closecircle" size={20} color="red" />
+            </TouchableOpacity>
         </View>
     );
 
     return (
-        <>
-            <ImageBackground source={require('../../assets/images/kitchen_sync_bg.png')} style={styles.backgroundImage} />
+        <ImageBackground source={require('../../assets/images/kitchen_sync_bg.png')} style={styles.backgroundImage}>
             <View style={styles.container}>
+                {/* Back Button */}
+                <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+                    <AntDesign name="arrowleft" size={24} color="#8B0000" />
+                </TouchableOpacity>
+
+                {/* Logo */}
                 <View style={styles.logoContainer}>
                     <Text style={styles.logoText}>
                         KITCHEN<Text style={styles.syncText}>Sync</Text>
                     </Text>
                 </View>
-                {/* Back Button at the top left */}
-                <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-                    <Text style={styles.backText}>Back</Text>
-                </TouchableOpacity>
+
                 <Text style={styles.title}>Grocery List</Text>
+
+                {/* Input Field */}
                 <View style={styles.inputContainer}>
                     <TextInput
                         style={styles.input}
                         placeholder="Enter item"
-                        placeholderTextColor='black'
+                        placeholderTextColor="#777"
                         value={item}
                         onChangeText={setItem}
                     />
-                    <Button title="Add" onPress={addItem} />
+                    <TouchableOpacity style={styles.addButton} onPress={addItem}>
+                        <Text style={styles.addButtonText}>Add</Text>
+                    </TouchableOpacity>
                 </View>
+
+                {/* Shopping List */}
                 <FlatList
                     data={list}
                     renderItem={renderItem}
@@ -86,80 +95,94 @@ const ShoppingList = () => {
                     style={styles.list}
                 />
             </View>
-        </>
+        </ImageBackground>
     );
 };
 
 const styles = StyleSheet.create({
     backgroundImage: {
         flex: 1,
-        position: "absolute",
         width: "100%",
         height: "100%",
-    },
-    logoContainer: {
-        marginBottom: 20,
-        alignItems: "center",
-    },
-    logoText: {
-        fontSize: 24,
-        fontWeight: "bold",
-        color: "#8B0000",
-        marginTop: 55,
-    },
-    syncText: {
-        color: "#000",
     },
     container: {
         flex: 1,
         padding: 20,
-        marginTop: 40
+        marginTop: 60,
     },
     backButton: {
         position: 'absolute',
-        top: 10,
-        left: 10,
-        padding: 10,
-        backgroundColor: 'rgba(255,255,255,0.7)',
-        borderRadius: 5,
+        top: 20,
+        left: 20,
         zIndex: 10,
+        padding: 10,
     },
-    backText: {
-        fontSize: 16,
+    logoContainer: {
+        alignItems: "center",
+        marginBottom: 20,
+    },
+    logoText: {
+        fontSize: 28,
         fontWeight: "bold",
+        color: "#8B0000",
+        textAlign: "center",
+    },
+    syncText: {
+        color: "#000",
     },
     title: {
         fontSize: 24,
         fontWeight: "bold",
-        marginBottom: 20,
         textAlign: "center",
+        marginBottom: 20,
     },
     inputContainer: {
         flexDirection: "row",
+        alignItems: "center",
+        backgroundColor: "#F5E1C8", // Light beige for readability
+        borderRadius: 8,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
         marginBottom: 20,
     },
     input: {
         flex: 1,
-        borderWidth: 1,
-        borderColor: "#ccc",
+        fontSize: 16,
         padding: 10,
-        marginRight: 10,
-        color: 'Red',
+    },
+    addButton: {
+        backgroundColor: "#8B0000",
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        borderRadius: 8,
+    },
+    addButtonText: {
+        color: "white",
+        fontWeight: "bold",
+        fontSize: 16,
     },
     itemContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        padding: 10,
-        borderBottomWidth: 1,
-        borderBottomColor: "#eee",
+        backgroundColor: '#D8E4BC', // Off-white for list items
+        padding: 12,
+        marginBottom: 10,
+        borderRadius: 8,
+        shadowColor: "#000",
+        shadowOpacity: 0.1,
+        shadowRadius: 5,
+        elevation: 3,
     },
     itemText: {
-        fontSize: 16,
+        fontSize: 18,
+    },
+    deleteButton: {
+        padding: 5,
     },
     list: {
         flex: 1,
-    }
+    },
 });
 
 export default ShoppingList;
