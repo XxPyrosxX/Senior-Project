@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  View, Text, TextInput, TouchableOpacity, 
-  StyleSheet, Image, ImageBackground, FlatList, 
-  ActivityIndicator 
-} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ImageBackground, FlatList, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { AntDesign } from "@expo/vector-icons"; 
 
 const API_KEY = '9edb43dda3d64e96bae0e88cc7dde1c0';
 const BASE_URL = 'https://api.spoonacular.com/recipes/complexSearch';
@@ -46,9 +43,9 @@ const Recipes = () => {
       source={require('../../assets/images/kitchen_sync_bg.png')}
       style={styles.backgroundImage}
     >
-      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-        <Text style={styles.backText}>Back</Text>
-      </TouchableOpacity>
+       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+            <AntDesign name="arrowleft" size={24} color="#8B0000" />
+        </TouchableOpacity>
 
       <View style={styles.logoContainer}>
         <Text style={styles.logoText}>
@@ -103,7 +100,7 @@ const styles = StyleSheet.create({
     top: 40,
     left: 10,
     padding: 10,
-    backgroundColor: 'rgba(255,255,255,0.7)',
+    //backgroundColor: 'rgba(255,255,255,0.7)',
     borderRadius: 5,
     zIndex: 10,
   },

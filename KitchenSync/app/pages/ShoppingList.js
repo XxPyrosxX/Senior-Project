@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, StyleSheet, ImageBackground, FlatList, TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
-import { AntDesign } from "@expo/vector-icons"; // Icons
+import { AntDesign } from "@expo/vector-icons";
 
 const ShoppingList = () => {
     const [item, setItem] = useState('');
@@ -108,11 +108,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        marginTop: 60,
+        marginTop: 40,
     },
     backButton: {
         position: 'absolute',
-        top: 20,
+        top: 15,
         left: 20,
         zIndex: 10,
         padding: 10,

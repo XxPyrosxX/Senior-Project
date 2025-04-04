@@ -3,6 +3,7 @@ import { View, Text, Image, ScrollView, TouchableOpacity, StyleSheet, ActivityIn
 import { useRoute, useNavigation } from '@react-navigation/native';
 import RenderHTML from 'react-native-render-html'; // Added library
 import { useWindowDimensions } from 'react-native';
+import { AntDesign } from "@expo/vector-icons"; 
 
 const API_KEY = '9edb43dda3d64e96bae0e88cc7dde1c0';
 const BASE_URL = 'https://api.spoonacular.com/recipes';
@@ -54,12 +55,13 @@ const RecipeDetails = () => {
   return (
     <ScrollView style={styles.container}>
       {/* Back Button */}
-      <TouchableOpacity 
-        style={styles.backButton} 
-        onPress={() => navigation.navigate('Recipes')}
-      >
-        <Text style={styles.backText}>Back</Text>
-      </TouchableOpacity>
+      <View style={styles.topRow}>
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Recipes')}>
+          <AntDesign name="arrowleft" size={24} color="#8B0000" />
+          <Text style={styles.backText}>Back</Text>
+        </TouchableOpacity>
+      </View>
+
 
 
       {/* Recipe Details */}
@@ -90,22 +92,21 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   backButton: {
-    position: 'absolute',
-    top: 30,
-    backgroundColor: '#8B0000',
-    borderRadius: 5,
-    alignSelf: 'flex-start',
-    padding: 5,
-   },
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    marginTop: 20,
+  },
   backText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#FFF',
+    marginLeft: 5,
+    fontSize: 18,
+    color: '#8B0000',
+    fontWeight: '500',
   },
   recipeImage: {
     width: '100%',
     height: 200,
-    marginTop: 60,
+    //marginTop: 60,
     borderRadius: 10,
     marginBottom: 15,
     paddingTop: 10,
