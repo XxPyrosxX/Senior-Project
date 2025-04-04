@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ImageBackground, FlatList, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AntDesign } from "@expo/vector-icons";
 
 const API_KEY = '9edb43dda3d64e96bae0e88cc7dde1c0';
 const BASE_URL = 'https://api.spoonacular.com/recipes/findByIngredients';
@@ -41,8 +42,9 @@ const PantryRecipes = () => {
 
   return (
     <ImageBackground source={require('../../assets/images/kitchen_sync_bg.png')} style={styles.backgroundImage}>
+      {/* Back Button */}
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-        <Text style={styles.backText}>Back</Text>
+          <AntDesign name="arrowleft" size={24} color="#8B0000" />
       </TouchableOpacity>
 
       <View style={styles.logoContainer}>
@@ -96,7 +98,7 @@ const styles = StyleSheet.create({
     top: 40,
     left: 10,
     padding: 10,
-    backgroundColor: 'rgba(255,255,255,0.8)',
+    //backgroundColor: 'rgba(255,255,255,0.8)',
     borderRadius: 5,
     zIndex: 10,
   },

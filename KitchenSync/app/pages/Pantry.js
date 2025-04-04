@@ -104,7 +104,7 @@ const Pantry = () => {
         source={require('../../assets/images/kitchen_sync_bg.png')}
         style={styles.backgroundImage}
       />
-       {/* Back Button */}
+      {/* Back Button */}
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
           <AntDesign name="arrowleft" size={24} color="#8B0000" />
       </TouchableOpacity>
