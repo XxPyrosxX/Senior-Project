@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator, ImageBackground } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
+import { AntDesign } from "@expo/vector-icons";
 
 const CALORIENINJA_API_KEY = "LLew1ywTsyGT1GAwBl0zHg==n1YiL8iF91CWY2Bq";
 
@@ -77,9 +78,11 @@ export default function PantryItemDetails() {
     />
 
     <View style={styles.container}>
-      <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Pantry')}>
-        <Text style={styles.backText}>Back</Text>
+      {/* Back Button */}
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+          <AntDesign name="arrowleft" size={24} color="#8B0000" />
       </TouchableOpacity>
+      
 
       <View style={styles.detailContainer}>
         {loadingImage ? (
@@ -127,7 +130,7 @@ const styles = StyleSheet.create({
     top: 40,
     left: 10,
     padding: 10,
-    backgroundColor: '#fffef1',
+    //backgroundColor: '#fffef1',
     borderRadius: 5,
     zIndex: 10,
   },

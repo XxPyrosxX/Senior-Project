@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ImageBackground, ScrollView, Modal } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AntDesign } from "@expo/vector-icons";
 
 const API_KEY = "9edb43dda3d64e96bae0e88cc7dde1c0";
 
@@ -103,8 +104,9 @@ const Pantry = () => {
         source={require('../../assets/images/kitchen_sync_bg.png')}
         style={styles.backgroundImage}
       />
+       {/* Back Button */}
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-        <Text style={styles.backText}>Back</Text>
+          <AntDesign name="arrowleft" size={24} color="#8B0000" />
       </TouchableOpacity>
       
       <View style={styles.headerContainer}>
@@ -117,6 +119,7 @@ const Pantry = () => {
         <TextInput
           style={styles.searchBar}
           placeholder="Search Pantry Items..."
+          placeholderTextColor="#666"
           value={searchQuery}
           onChangeText={setSearchQuery}
         />
@@ -211,10 +214,10 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: 'absolute',
-    top: 40,
+    top: 60,
     left: 10,
     padding: 10,
-    backgroundColor: 'rgba(255,255,255,0.7)',
+    //backgroundColor: 'rgba(255,255,255,0.7)',
     borderRadius: 5,
     zIndex: 10,
   },
@@ -232,7 +235,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   logoText: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: "bold",
     color: "#8B0000",
     marginTop: 20,
@@ -247,15 +250,16 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 10,
     marginTop: 10,
+    
   },
   addButton: {
     position: 'absolute',
     top: 65,
-    right: 25,
+    right: 20,
     backgroundColor: '#8B0000',
     borderRadius: 50,
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 11,

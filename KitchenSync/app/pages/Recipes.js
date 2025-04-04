@@ -59,6 +59,7 @@ const Recipes = () => {
         placeholder="Search recipes..."
         value={searchQuery}
         onChangeText={setSearchQuery}
+        //color="#000"
       />
 
       <Text style={styles.recipeCount}>
