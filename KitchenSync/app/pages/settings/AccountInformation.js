@@ -4,6 +4,8 @@ import { View, Text, TouchableOpacity, StyleSheet, ImageBackground, ActivityIndi
 import { FIREBASE_AUTH, FIREBASE_DB } from "../../../FirebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
 import { enableNetwork } from "firebase/firestore";
+import { AntDesign } from "@expo/vector-icons"; 
+
 
 enableNetwork(FIREBASE_DB)
     .then(() => {
@@ -56,8 +58,8 @@ const AccountSettings = () => {
             source={require('../../../assets/images/kitchen_sync_bg.png')}
             style={styles.backgroundImage}
         >
-            <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('SettingsPage')}>
-                <Text style={styles.backText}>Back</Text>
+            <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+                <AntDesign name="arrowleft" size={24} color="#8B0000" />
             </TouchableOpacity>
 
             <View style={styles.container}>
@@ -98,10 +100,10 @@ const styles = StyleSheet.create({
     },
     backButton: {
         position: 'absolute',
-        top: 40,
+        top: 62,
         left: 10,
         padding: 10,
-        backgroundColor: 'rgba(255,255,255,0.7)',
+        //backgroundColor: 'rgba(255,255,255,0.7)',
         borderRadius: 5,
         zIndex: 10,
     },
