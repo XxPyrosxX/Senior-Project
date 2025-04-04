@@ -5,10 +5,14 @@ import CreateAccount from './pages/CreateAccount';
 import TabsLayout from './insideLayout';
 import { User, onAuthStateChanged } from 'firebase/auth';
 import { FIREBASE_AUTH } from '@/FirebaseConfig';
+import { scheduleDailyReminder } from './Notifications';
 
 const Stack = createNativeStackNavigator();
 
 export default function RootLayout() {
+  useEffect(() => {
+    scheduleDailyReminder();
+  }, []);
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
