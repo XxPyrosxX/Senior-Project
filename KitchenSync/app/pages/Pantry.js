@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ImageBackground, ScrollView, Modal } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { AntDesign } from "@expo/vector-icons";
 
 const API_KEY = "9edb43dda3d64e96bae0e88cc7dde1c0";
@@ -31,9 +32,23 @@ const Pantry = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [newItem, setNewItem] = useState('');
   const [newQuantity, setNewQuantity] = useState('');
+  const [expirationDate, setExpirationDate] = useState(null);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [editItem, setEditItem] = useState(null);
   const [items, setItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const navigation = useNavigation();
+
+  // Helper function to determine expiration text style:
+  const getExpirationTextStyle = (expirationISO) => {
+    if (!expirationISO) return {};
+    const expDate = new Date(expirationISO);
+    const today = new Date();
+    const diffDays = Math.ceil((expDate - today) / (1000 * 60 * 60 * 24));
+    if (diffDays <= 2) return { color: 'red' };
+    if (diffDays <= 4) return { color: '#DAA520' }; // updated darker yellow
+    return {};
+  };
 
   // Load persisted pantry items when component mounts
   useEffect(() => {
@@ -62,26 +77,54 @@ const Pantry = () => {
     saveItems();
   }, [items]);
 
-  const handleAddItem = async () => {
-    if (newItem && newQuantity) {
+  const handleSubmit = async () => {
+    if (newItem && newQuantity && !editItem) {
+      // Adding new item—set expirationDate only if provided
       const newId = items.length + 1;
-      const itemKey = newItem.toLowerCase().trim();
-      returnItems.push({ id: newId, title: itemKey, quantity: newQuantity });
-      // Fetch image dynamically
-      const image = await fetchFoodImage(itemKey);
-      // Store the current date as an ISO string
+      const image = await fetchFoodImage(newItem.toLowerCase().trim());
       const dateAdded = new Date().toISOString();
       let newItemObj;
       if (typeof image === "number") {
-          newItemObj = { id: newId, title: newItem, quantity: newQuantity, image: image, dateAdded };
+        newItemObj = {
+          id: newId,
+          title: newItem,
+          quantity: newQuantity,
+          image: image,
+          dateAdded,
+          expirationDate: expirationDate ? expirationDate.toISOString() : null
+        };
       } else {
-          newItemObj = { id: newId, title: newItem, quantity: newQuantity, image: { uri: image }, dateAdded };
+        newItemObj = {
+          id: newId,
+          title: newItem,
+          quantity: newQuantity,
+          image: { uri: image },
+          dateAdded,
+          expirationDate: expirationDate ? expirationDate.toISOString() : null
+        };
       }
       setItems([...items, newItemObj]);
-      setNewItem('');
-      setNewQuantity('');
-      setModalVisible(false);
+    } else if (editItem) {
+      // Editing existing item: update only expirationDate.
+      const updatedItems = items.map(item =>
+        item.id === editItem.id ? { ...item, expirationDate: expirationDate.toISOString() } : item
+      );
+      setItems(updatedItems);
+      await AsyncStorage.setItem('pantryItems', JSON.stringify(updatedItems));
     }
+    // Reset fields and close modal
+    setNewItem('');
+    setNewQuantity('');
+    setExpirationDate(null);
+    setEditItem(null);
+    setModalVisible(false);
+  };
+
+  const handleEditItem = (item) => {
+    // Only edit expiration date – if not set, use new Date() instead of defaulting to December 31, 1969.
+    setEditItem(item);
+    setExpirationDate(item.expirationDate ? new Date(item.expirationDate) : new Date());
+    setModalVisible(true);
   };
 
   const handleDeleteItem = async (id) => {
@@ -128,79 +171,150 @@ const Pantry = () => {
       {/* Add Item Button (positioned separately) */}
       <TouchableOpacity
         style={styles.addButton}
-        onPress={() => setModalVisible(true)}
+        onPress={() => {
+          // Reset new item fields for adding mode
+          setNewItem('');
+          setNewQuantity('');
+          setExpirationDate(null);
+          setEditItem(null);
+          setModalVisible(true);
+        }}
       >
         <Text style={styles.addButtonText}>+</Text>
       </TouchableOpacity>
 
-      {/* Modal for adding item */}
+      <ScrollView>
+        <View style={styles.gridContainer}>
+          {filteredItems.map((item) => (
+            <View key={item.id} style={styles.itemContainer}>
+              <TouchableOpacity
+                style={{ alignItems: 'center' }}
+                onPress={() => {
+                  navigation.navigate('ItemInfo', {
+                    id: item.id,
+                    title: item.title,
+                    quantity: item.quantity || 'N/A',
+                    image:
+                      typeof item.image === 'number'
+                        ? Image.resolveAssetSource(item.image).uri
+                        : item.image.uri,
+                    dateAdded: item.dateAdded,
+                    expirationDate: item.expirationDate,
+                  });
+                }}
+              >
+                <Image source={item.image} style={styles.itemImage} />
+                <Text style={styles.itemTitle}>{item.title}</Text>
+                <Text style={[styles.dateAdded, getExpirationTextStyle(item.expirationDate)]}>
+                  {item.expirationDate ? `Expires on: ${new Date(item.expirationDate).toLocaleDateString()}` : "Expiration Date: N/A"}
+                </Text>
+              </TouchableOpacity>
+              <View style={{ flexDirection: 'row', marginTop: 5 }}>
+                <TouchableOpacity
+                  style={[styles.editButton, { marginRight: 5 }]}
+                  onPress={() => handleEditItem(item)}
+                >
+                  <Text style={styles.deleteButtonText}>Edit</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.deleteButton}
+                  onPress={() => handleDeleteItem(item.id)}
+                >
+                  <Text style={styles.deleteButtonText}>Delete</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          ))}
+        </View>
+      </ScrollView>
+
+      {/* Modal for adding/editing item */}
       <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
+        onRequestClose={() => { setModalVisible(false); setEditItem(null); }}
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalLabel}>Item Name:</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter Item Name"
-              value={newItem}
-              onChangeText={setNewItem}
-            />
-            <Text style={styles.modalLabel}>Quantity:</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter Quantity"
-              value={newQuantity}
-              onChangeText={setNewQuantity}
-              keyboardType="numeric"
-            />
-            <TouchableOpacity onPress={handleAddItem} style={styles.submitButton}>
-              <Text style={styles.submitButtonText}>Add Item</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.cancelButton}>
-              <Text style={styles.cancelButtonText}>Cancel</Text>
-            </TouchableOpacity>
+            {editItem ? (
+              // Edit mode: allow editing expiration date only.
+              <>
+                <Text style={styles.modalLabel}>Edit Expiration Date for {editItem.title}:</Text>
+                <TouchableOpacity onPress={() => setShowDatePicker(true)} style={styles.datePickerButton}>
+                  <Text>
+                    {expirationDate ? new Date(expirationDate).toLocaleDateString() : 'Select Date'}
+                  </Text>
+                </TouchableOpacity>
+                {showDatePicker && (
+                  <DateTimePicker
+                    value={expirationDate || new Date()}
+                    mode="date"
+                    display="default"
+                    onChange={(event, selectedDate) => {
+                      setShowDatePicker(false);
+                      if (selectedDate) {
+                        setExpirationDate(selectedDate);
+                      }
+                    }}
+                  />
+                )}
+                <TouchableOpacity onPress={handleSubmit} style={styles.submitButton}>
+                  <Text style={styles.submitButtonText}>Update Expiration Date</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => { setModalVisible(false); setEditItem(null); }} style={styles.cancelButton}>
+                  <Text style={styles.cancelButtonText}>Cancel</Text>
+                </TouchableOpacity>
+              </>
+            ) : (
+              // New item mode: full form.
+              <>
+                <Text style={styles.modalLabel}>Item Name:</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter Item Name"
+                  value={newItem}
+                  onChangeText={setNewItem}
+                />
+                <Text style={styles.modalLabel}>Quantity:</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter Quantity"
+                  value={newQuantity}
+                  onChangeText={setNewQuantity}
+                  keyboardType="numeric"
+                />
+                {/* Updated label with (optional) */}
+                <Text style={styles.modalLabel}>Expiration Date (optional):</Text>
+                <TouchableOpacity onPress={() => setShowDatePicker(true)} style={styles.datePickerButton}>
+                  <Text>
+                    {expirationDate ? new Date(expirationDate).toLocaleDateString() : 'Select Date'}
+                  </Text>
+                </TouchableOpacity>
+                {showDatePicker && (
+                  <DateTimePicker
+                    value={expirationDate || new Date()}
+                    mode="date"
+                    display="default"
+                    onChange={(event, selectedDate) => {
+                      setShowDatePicker(false);
+                      if (selectedDate) {
+                        setExpirationDate(selectedDate);
+                      }
+                    }}
+                  />
+                )}
+                <TouchableOpacity onPress={handleSubmit} style={styles.submitButton}>
+                  <Text style={styles.submitButtonText}>{editItem ? 'Update Item' : 'Add Item'}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => { setModalVisible(false); setEditItem(null); }} style={styles.cancelButton}>
+                  <Text style={styles.cancelButtonText}>Cancel</Text>
+                </TouchableOpacity>
+              </>
+            )}
           </View>
         </View>
       </Modal>
-
-      <ScrollView>
-        <View style={styles.gridContainer}>
-          {filteredItems.map((item) => (
-            <TouchableOpacity
-              key={item.id}
-              style={styles.itemContainer}
-              onPress={() => {
-                navigation.navigate('ItemInfo', {
-                  id: item.id,
-                  title: item.title,
-                  quantity: item.quantity || 'N/A',
-                  image:
-                    typeof item.image === 'number'
-                      ? Image.resolveAssetSource(item.image).uri
-                      : item.image.uri,
-                  dateAdded: item.dateAdded,
-                });
-              }}
-            >
-              <Image source={item.image} style={styles.itemImage} />
-              <Text style={styles.itemTitle}>{item.title}</Text>
-              <Text style={styles.dateAdded}>
-                Added on: {new Date(item.dateAdded).toLocaleDateString()}
-              </Text>
-              <TouchableOpacity
-                style={styles.deleteButton}
-                onPress={() => handleDeleteItem(item.id)}
-            >
-          <Text style={styles.deleteButtonText}>Delete</Text>
-        </TouchableOpacity>
-      </TouchableOpacity>
-          ))}
-        </View>
-      </ScrollView>
     </>
   );
 };
@@ -290,6 +404,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     fontSize: 16,
     fontWeight: "bold",
+    textAlign: 'center',
   },
   dateAdded: {
     fontSize: 12,
@@ -349,6 +464,22 @@ const styles = StyleSheet.create({
   deleteButtonText: {
     color: 'white',
     fontWeight: 'bold',
+  },
+  datePickerButton: {
+    width: '100%',
+    height: 40,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    marginBottom: 10,
+    justifyContent: 'center',
+    paddingLeft: 8,
+    borderRadius: 5,
+  },
+  editButton: {
+    backgroundColor: '#4682B4',
+    borderRadius: 5,
+    padding: 5,
+    marginTop: 5,
   },
 });
 

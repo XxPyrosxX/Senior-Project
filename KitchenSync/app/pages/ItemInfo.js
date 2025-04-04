@@ -42,15 +42,17 @@ const getImageSource = (img) => {
 export default function PantryItemDetails() {
   const route = useRoute();
   const navigation = useNavigation();
-  const { title, quantity, image, dateAdded } = route.params || {};
-
-  // Placeholder for expiration date
-  const expirationDate = "N/A";
+  const { title, quantity, image, dateAdded, expirationDate } = route.params || {};
 
   const [itemImage, setItemImage] = useState(null);
   const [nutritionalInfo, setNutritionalInfo] = useState(null);
   const [loadingNutrition, setLoadingNutrition] = useState(true);
   const [loadingImage, setLoadingImage] = useState(true);
+
+  // Format expiration date when available
+  const formattedExpirationDate = expirationDate 
+    ? new Date(expirationDate).toLocaleDateString() 
+    : "N/A";
 
   useEffect(() => {
     if (image) {
@@ -97,7 +99,7 @@ export default function PantryItemDetails() {
         <Text style={styles.info}>
           Date Added: {dateAdded ? new Date(dateAdded).toLocaleDateString() : "N/A"}
         </Text>
-        <Text style={styles.info}>Expiration Date: {expirationDate}</Text>
+        <Text style={styles.info}>Expiration Date: {formattedExpirationDate}</Text>
         <Text style={styles.info}>Nutritional Information:</Text>
         {loadingNutrition ? (
           <ActivityIndicator size="small" color="#006400" />
