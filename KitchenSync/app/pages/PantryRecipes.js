@@ -144,7 +144,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   recipeCard: {
-    backgroundColor: '#fff',
+    backgroundColor: "#F5E1C8", 
+    opacity: 0.9,
     marginVertical: 10,
     marginHorizontal: 20,
     padding: 15,
