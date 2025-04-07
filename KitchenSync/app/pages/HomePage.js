@@ -68,9 +68,11 @@ const HomePage = ({}) => {
           onChangeText={(text) => setPassword(text)}
         />
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
           <Text style={styles.forgotPassword}>Forgot Password?</Text>
         </TouchableOpacity>
+
+
         {loading ? (
           <ActivityIndicator size="large" color="#000ff" />
         ) : (

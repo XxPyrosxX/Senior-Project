@@ -13,6 +13,7 @@ import ShoppingList from './pages/ShoppingList';
 import ItemInfo from './pages/ItemInfo';
 import About from './pages/settings/About';
 import createAccount from './pages/CreateAccount';
+import ForgotPassword from './pages/ForgotPassword';
 import Login from './pages/HomePage';
 import { LogBox } from 'react-native';
 import AccountSettings from './pages/settings/AccountInformation';
@@ -136,6 +137,11 @@ export default function TabsLayout() {
       <Tab.Screen
         name="HomePage"
         component={Login}
+        options={{ tabBarItemStyle: { display: "none" } }}
+        />
+      <Tab.Screen
+        name="ForgotPassword"
+        component={ForgotPassword}
         options={{ tabBarItemStyle: { display: "none" } }}
         />
       <Tab.Screen

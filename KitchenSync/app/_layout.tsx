@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomePage from './pages/HomePage';
 import CreateAccount from './pages/CreateAccount';
+import ForgotPassword from './pages/ForgotPassword';
 import TabsLayout from './insideLayout';
 import { User, onAuthStateChanged } from 'firebase/auth';
 import { FIREBASE_AUTH } from '@/FirebaseConfig';
 import { scheduleDailyReminder } from './Notifications';
+import { useNavigation } from "@react-navigation/native";
 
 const Stack = createNativeStackNavigator();
 
@@ -36,6 +38,7 @@ export default function RootLayout() {
         <>
           <Stack.Screen name="Login" component={HomePage} options={{ headerShown: false }} />
           <Stack.Screen name="CreateAccount" component={CreateAccount} options={{ headerShown: false }} />
+          <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{ headerShown: false }} />
         </>
       )}
     </Stack.Navigator>
