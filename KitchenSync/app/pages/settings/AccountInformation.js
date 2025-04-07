@@ -58,7 +58,7 @@ const AccountSettings = () => {
             source={require('../../../assets/images/kitchen_sync_bg.png')}
             style={styles.backgroundImage}
         >
-            <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+            <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('SettingsPage')}>
                 <AntDesign name="arrowleft" size={24} color="#8B0000" />
             </TouchableOpacity>
 

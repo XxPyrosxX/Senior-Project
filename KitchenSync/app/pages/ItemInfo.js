@@ -81,7 +81,7 @@ export default function PantryItemDetails() {
 
     <View style={styles.container}>
       {/* Back Button */}
-      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Pantry')}>
           <AntDesign name="arrowleft" size={24} color="#8B0000" />
       </TouchableOpacity>
       

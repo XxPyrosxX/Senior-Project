@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { AntDesign } from "@expo/vector-icons";
+import { scheduleExpirationNotifications } from '../Notifications';
 
 const API_KEY = "9edb43dda3d64e96bae0e88cc7dde1c0";
 
@@ -104,13 +105,29 @@ const Pantry = () => {
         };
       }
       setItems([...items, newItemObj]);
+      
+      // Schedule expiration notifications if there's an expiration date
+      if (expirationDate) {
+        await scheduleExpirationNotifications(newItemObj);
+      }
     } else if (editItem) {
       // Editing existing item: update only expirationDate.
+      const updatedItem = { 
+        ...editItem, 
+        expirationDate: expirationDate ? expirationDate.toISOString() : null 
+      };
+      
       const updatedItems = items.map(item =>
-        item.id === editItem.id ? { ...item, expirationDate: expirationDate.toISOString() } : item
+        item.id === editItem.id ? updatedItem : item
       );
+      
       setItems(updatedItems);
       await AsyncStorage.setItem('pantryItems', JSON.stringify(updatedItems));
+      
+      // Schedule or update expiration notifications
+      if (expirationDate) {
+        await scheduleExpirationNotifications(updatedItem);
+      }
     }
     // Reset fields and close modal
     setNewItem('');
@@ -132,6 +149,9 @@ const Pantry = () => {
     setItems(updatedItems);
     try {
       await AsyncStorage.setItem('pantryItems', JSON.stringify(updatedItems));
+      // Import and call a function to cancel notifications for the deleted item
+      const { cancelExistingItemNotifications } = require('../Notifications');
+      await cancelExistingItemNotifications(id);
     } catch (error) {
       console.error('Error deleting pantry item:', error);
     }
