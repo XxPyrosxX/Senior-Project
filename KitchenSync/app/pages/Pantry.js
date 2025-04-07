@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { AntDesign } from "@expo/vector-icons";
-import { scheduleExpirationNotifications } from '../Notifications';
+import { scheduleExpirationNotifications, cancelExistingItemNotifications } from '../Notifications';
 
 const API_KEY = "9edb43dda3d64e96bae0e88cc7dde1c0";
 
@@ -81,7 +81,8 @@ const Pantry = () => {
   const handleSubmit = async () => {
     if (newItem && newQuantity && !editItem) {
       // Adding new item—set expirationDate only if provided
-      const newId = items.length + 1;
+      // Generate a unique ID by finding the maximum current ID and adding 1
+      const newId = items.length > 0 ? Math.max(...items.map(item => item.id)) + 1 : 1;
       const image = await fetchFoodImage(newItem.toLowerCase().trim());
       const dateAdded = new Date().toISOString();
       let newItemObj;
@@ -149,8 +150,7 @@ const Pantry = () => {
     setItems(updatedItems);
     try {
       await AsyncStorage.setItem('pantryItems', JSON.stringify(updatedItems));
-      // Import and call a function to cancel notifications for the deleted item
-      const { cancelExistingItemNotifications } = require('../Notifications');
+      // Use the properly imported function
       await cancelExistingItemNotifications(id);
     } catch (error) {
       console.error('Error deleting pantry item:', error);
