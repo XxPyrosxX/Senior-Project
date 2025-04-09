@@ -1,10 +1,7 @@
 import * as Notifications from 'expo-notifications';
 import { SchedulableTriggerInputTypes } from 'expo-notifications';
 import * as Device from 'expo-device';
-import React from 'react';
 import { Platform } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { FIREBASE_AUTH } from '@/FirebaseConfig'; // adjust the path as necessary
 
 // Configure how notifications are shown when received in the foreground.
 Notifications.setNotificationHandler({
@@ -80,13 +77,14 @@ async function cancelExistingReminders() {
 // Schedules a daily notification to fire at the next occurrence of the target time.
 export async function scheduleDailyReminder() {
   await cancelExistingReminders();
-  await scheduleNotificationForNextOccurrence();
+  // Schedule reminder for 12:00 PM
+  await scheduleNotificationForNextOccurrence(12, 0);
+  // Schedule reminder for 9:00 PM
+  await scheduleNotificationForNextOccurrence(21, 0);
 }
 
-async function scheduleNotificationForNextOccurrence() {
+async function scheduleNotificationForNextOccurrence(targetHour: number = 12, targetMinute: number = 0) {
   const now = new Date();
-  const targetHour = 12; 
-  const targetMinute = 0; // Set the target time to 12:00 PM
   let scheduledDate = new Date(now);
   scheduledDate.setHours(targetHour, targetMinute, 0, 0);
 
@@ -102,7 +100,7 @@ async function scheduleNotificationForNextOccurrence() {
 
   const randomIndex = Math.floor(Math.random() * reminderPrompts.length);
   const promptMessage = reminderPrompts[randomIndex];
-  console.log("Scheduling daily reminder with prompt:", promptMessage);
+  console.log(`Scheduling daily reminder at ${targetHour}:${targetMinute.toString().padStart(2, '0')} with prompt:`, promptMessage);
 
   // Use the date trigger
   await Notifications.scheduleNotificationAsync({
@@ -112,8 +110,8 @@ async function scheduleNotificationForNextOccurrence() {
       sound: 'default',
     },
     trigger: {
-      type: SchedulableTriggerInputTypes.DATE,  // Use enum instead of string literal
-      date: scheduledDate,  // Your Date object here
+      type: SchedulableTriggerInputTypes.DATE,
+      date: scheduledDate,
     },
   });
 
