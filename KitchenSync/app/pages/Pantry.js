@@ -51,6 +51,15 @@ const Pantry = () => {
     return {};
   };
 
+  // Helper function to check if an item is expiring soon (for use in other components)
+  const isExpiringSoon = (expirationISO, daysThreshold = 4) => {
+    if (!expirationISO) return false;
+    const expDate = new Date(expirationISO);
+    const today = new Date();
+    const diffDays = Math.ceil((expDate - today) / (1000 * 60 * 60 * 24));
+    return diffDays <= daysThreshold;
+  };
+
   // Load persisted pantry items when component mounts
   useEffect(() => {
     const loadItems = async () => {
