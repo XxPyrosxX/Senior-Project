@@ -121,9 +121,10 @@ const Pantry = () => {
         await scheduleExpirationNotifications(newItemObj);
       }
     } else if (editItem) {
-      // Editing existing item: update only expirationDate.
+      // Update to include quantity when editing existing item
       const updatedItem = { 
         ...editItem, 
+        quantity: newQuantity,
         expirationDate: expirationDate ? expirationDate.toISOString() : null 
       };
       
@@ -148,8 +149,9 @@ const Pantry = () => {
   };
 
   const handleEditItem = (item) => {
-    // Only edit expiration date – if not set, use new Date() instead of defaulting to December 31, 1969.
+    // Update to set quantity as well as expiration date
     setEditItem(item);
+    setNewQuantity(item.quantity || '');
     setExpirationDate(item.expirationDate ? new Date(item.expirationDate) : new Date());
     setModalVisible(true);
   };
@@ -267,9 +269,20 @@ const Pantry = () => {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             {editItem ? (
-              // Edit mode: allow editing expiration date only.
+              // Edit mode: allow editing expiration date and quantity
               <>
-                <Text style={styles.modalLabel}>Edit Expiration Date for {editItem.title}:</Text>
+                <Text style={styles.modalLabel}>Edit Item: {editItem.title}</Text>
+                
+                <Text style={styles.modalLabel}>Quantity:</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter Quantity"
+                  value={newQuantity}
+                  onChangeText={setNewQuantity}
+                  keyboardType="numeric"
+                />
+                
+                <Text style={styles.modalLabel}>Expiration Date:</Text>
                 <TouchableOpacity onPress={() => setShowDatePicker(true)} style={styles.datePickerButton}>
                   <Text>
                     {expirationDate ? new Date(expirationDate).toLocaleDateString() : 'Select Date'}
@@ -289,7 +302,7 @@ const Pantry = () => {
                   />
                 )}
                 <TouchableOpacity onPress={handleSubmit} style={styles.submitButton}>
-                  <Text style={styles.submitButtonText}>Update Expiration Date</Text>
+                  <Text style={styles.submitButtonText}>Update Item</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => { setModalVisible(false); setEditItem(null); }} style={styles.cancelButton}>
                   <Text style={styles.cancelButtonText}>Cancel</Text>
