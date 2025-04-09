@@ -4,6 +4,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { FIREBASE_AUTH } from "../../FirebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { AntDesign } from "@expo/vector-icons";
 
 export default function CreateAccountScreen() {
   const [email, setEmail] = useState("");
@@ -42,7 +43,7 @@ export default function CreateAccountScreen() {
 
       {/* Back Button */}
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-        <Text style={styles.backText}>Back</Text>
+          <AntDesign name="arrowleft" size={24} color="#8B0000" />
       </TouchableOpacity>
 
       <TextInput
@@ -105,18 +106,23 @@ export default function CreateAccountScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#FFD580",
+   // backgroundColor: "#fff",
     padding: 20,
     alignItems: "center",
     justifyContent: "center",
   },
   logo: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: "bold",
-    color: "#B74E34",
+    color: "#8B0000",
+    marginTop: 40,
   },
   sync: {
+    fontSize: 32,
+    fontWeight: "normal",
     fontStyle: "italic",
+    color: "#000000",
   },
   title: {
     fontSize: 20,
@@ -135,6 +141,7 @@ const styles = StyleSheet.create({
     color: "#000",
   },
   passwordContainer: {
+    backgroundColor: "#fff",
     flexDirection: "row",
     alignItems: "center",
     width: "100%",
@@ -165,7 +172,7 @@ const styles = StyleSheet.create({
     top: 40,
     left: 10,
     padding: 10,
-    backgroundColor: 'rgba(255,255,255,0.7)',
+    //backgroundColor: 'rgba(255,255,255,0.7)',
     borderRadius: 5,
     zIndex: 10,
   },

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from "react-native";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { FIREBASE_AUTH } from "../../FirebaseConfig";
 import { useNavigation } from "@react-navigation/native";
+import { AntDesign } from "@expo/vector-icons";
 
 
 export default function ForgotPasswordScreen() {
@@ -21,7 +22,7 @@ export default function ForgotPasswordScreen() {
     try {
       await sendPasswordResetEmail(auth, email);
       Alert.alert("Success", "Password reset link sent to your email.");
-      navigation.goBack(); // or navigate to Login screen
+      navigation.goBack(); 
     } catch (error) {
       console.error(error);
       Alert.alert("Error", error.message);
@@ -30,7 +31,20 @@ export default function ForgotPasswordScreen() {
 
 
   return (
+    <>
+    <View style={styles.logoContainer}>
+        <Text style={styles.logoText}>
+          KITCHEN<Text style={styles.syncText}>Sync</Text>
+        </Text>
+      </View>
+
+      
+      {/* Back Button */}
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+          <AntDesign name="arrowleft" size={24} color="#8B0000" />
+      </TouchableOpacity>
     <View style={styles.container}>
+      
       <Text style={styles.title}>Reset Your Password</Text>
       <TextInput
         style={styles.input}
@@ -44,6 +58,10 @@ export default function ForgotPasswordScreen() {
         <Text style={styles.buttonText}>Send Reset Link</Text>
       </TouchableOpacity>
     </View>
+
+    </>
+
+    
   );
 }
 
@@ -52,11 +70,29 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFD580",
-    justifyContent: "center",
+    //justifyContent: "center",
     alignItems: "center",
     padding: 20,
   },
+  logoContainer: {
+    
+    marginBottom: 20,
+    alignItems: "center",
+  },
+  logoText: {
+    fontSize: 28,
+    fontWeight: "bold",
+    color: "#8B0000",
+    marginTop: 40,
+  },
+  syncText: {
+    fontSize: 32,
+    fontWeight: "normal",
+    fontStyle: "italic",
+    color: "#000000",
+  },
   title: {
+    marginTop: 240,
     fontSize: 22,
     fontWeight: "bold",
     color: "#8B0000",
@@ -85,4 +121,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
+  backButton: {
+    position: 'absolute',
+    top: 40,
+    left: 10,
+    padding: 10,
+    //backgroundColor: 'rgba(255,255,255,0.7)',
+    borderRadius: 5,
+    zIndex: 10,
+  },
+  backText: {
+    fontSize: 16,
+    fontWeight: "bold",
+  }
 });
