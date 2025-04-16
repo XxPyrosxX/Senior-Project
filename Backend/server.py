@@ -3,6 +3,7 @@ from PIL import Image
 import pytesseract
 import os  # Required for directory and file operations
 from fastapi.middleware.cors import CORSMiddleware
+from fuzzywuzzy import fuzz
 
 app = FastAPI()
 
@@ -22,6 +23,27 @@ app.add_middleware(
 UPLOAD_DIRECTORY = "temporary"
 if not os.path.exists(UPLOAD_DIRECTORY):
     os.makedirs(UPLOAD_DIRECTORY)  # Create the directory if it doesn't exist
+
+def extract_text(txt, threshold=65):
+    # Step 1: Split the text by newline
+    lines = txt.splitlines()
+
+    # Step 2: Create a dictionary where each line is a key, initialized to 1
+    item_dict = {}
+    for line in lines:
+        line = line.strip()  # Remove any extra spaces around the line
+        if line:  # Only consider non-empty lines
+            matched = False
+            for key in item_dict:
+                # Compare the current line with each key in the dictionary using fuzzy matching
+                if fuzz.ratio(line, key) > threshold:
+                    item_dict[key] += 1  # If the match is above threshold, increment count
+                    matched = True
+                    break
+            if not matched:
+                item_dict[line] = 1  # Otherwise, add it to the dictionary with count 1
+
+    return item_dict
 
 @app.post("/ocr")
 async def ocr(file: UploadFile = File(...)):
@@ -46,10 +68,12 @@ async def ocr(file: UploadFile = File(...)):
     # Extract text using Tesseract OCR
     text = pytesseract.image_to_string(rotated_image)
 
-    os.remove("temporary/receipt.jpg")
+    # os.remove("temporary/receipt.jpg")
     os.remove("temporary/rotated_receipt.jpg")
 
-    return {"text": text}
+    items = extract_text(text)
+
+    return items
 
 # RUNNING THE SERVER:
-# uvicorn main:app --host 0.0.0.0 --port 8000
+# uvicorn server:app --host 0.0.0.0 --port 8000
