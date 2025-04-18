@@ -68,8 +68,9 @@ interface PantryItem {
 async function cancelExistingReminders() {
   const scheduled = await Notifications.getAllScheduledNotificationsAsync();
   for (const notification of scheduled) {
-    if (notification.content.title === "Daily Reminder") {
+    if (notification.content.data?.type === "daily-reminder") {
       await Notifications.cancelScheduledNotificationAsync(notification.identifier);
+      console.log(`Cancelled notification: ${notification.identifier}`);
     }
   }
 }
@@ -78,12 +79,16 @@ async function cancelExistingReminders() {
 export async function scheduleDailyReminder() {
   await cancelExistingReminders();
   // Schedule reminder for 12:00 PM
-  await scheduleNotificationForNextOccurrence(12, 0);
+  await scheduleNotificationForNextOccurrence(12, 0, "noon-reminder");
   // Schedule reminder for 9:00 PM
-  await scheduleNotificationForNextOccurrence(21, 0);
+  await scheduleNotificationForNextOccurrence(21, 0, "evening-reminder");
 }
 
-async function scheduleNotificationForNextOccurrence(targetHour: number = 12, targetMinute: number = 0) {
+async function scheduleNotificationForNextOccurrence(
+  targetHour: number = 12, 
+  targetMinute: number = 0, 
+  identifier: string = "daily-reminder"
+) {
   const now = new Date();
   let scheduledDate = new Date(now);
   scheduledDate.setHours(targetHour, targetMinute, 0, 0);
@@ -93,21 +98,24 @@ async function scheduleNotificationForNextOccurrence(targetHour: number = 12, ta
     scheduledDate.setDate(scheduledDate.getDate() + 1);
   }
 
-  console.log("Now:", now);
-  console.log("Scheduled date:", scheduledDate);
+  console.log(`[${identifier}] Now:`, now);
+  console.log(`[${identifier}] Scheduled date:`, scheduledDate);
   const secondsUntilTrigger = Math.floor((scheduledDate.getTime() - now.getTime()) / 1000);
-  console.log("Seconds until trigger:", secondsUntilTrigger);
+  console.log(`[${identifier}] Seconds until trigger:`, secondsUntilTrigger);
 
   const randomIndex = Math.floor(Math.random() * reminderPrompts.length);
   const promptMessage = reminderPrompts[randomIndex];
-  console.log(`Scheduling daily reminder at ${targetHour}:${targetMinute.toString().padStart(2, '0')} with prompt:`, promptMessage);
+  console.log(`[${identifier}] Scheduling daily reminder at ${targetHour}:${targetMinute.toString().padStart(2, '0')} with prompt:`, promptMessage);
 
-  // Use the date trigger
-  await Notifications.scheduleNotificationAsync({
+  const notificationId = await Notifications.scheduleNotificationAsync({
     content: {
       title: "Daily Reminder",
       body: promptMessage,
       sound: 'default',
+      data: {
+        type: "daily-reminder",
+        timeSlot: identifier
+      },
     },
     trigger: {
       type: SchedulableTriggerInputTypes.DATE,
@@ -115,7 +123,8 @@ async function scheduleNotificationForNextOccurrence(targetHour: number = 12, ta
     },
   });
 
-  console.log("Daily reminder scheduled to fire at:", scheduledDate);
+  console.log(`[${identifier}] Daily reminder scheduled to fire at: ${scheduledDate}, ID: ${notificationId}`);
+  return notificationId;
 }
 
 // Schedules notifications for items nearing expiration
