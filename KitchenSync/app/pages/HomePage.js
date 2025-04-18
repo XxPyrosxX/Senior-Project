@@ -83,26 +83,20 @@ const HomePage = ({}) => {
           </>
         )}
 
-        <Text style={styles.orText}>or Login with</Text>
-        <View style={styles.socialButtons}>
-          <TouchableOpacity>
-            <Image
-              source={{ uri: "https://img.icons8.com/color/48/facebook.png" }}
-              style={styles.socialIcon}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Image
-              source={{ uri: "https://img.icons8.com/color/48/google-logo.png" }}
-              style={styles.socialIcon}
-            />
-          </TouchableOpacity>
+          <View style={styles.divider}>
+          <View style={styles.dividerLine} />
+          <Text style={styles.dividerText}>or</Text>
+          <View style={styles.dividerLine} />
         </View>
+        
+        <TouchableOpacity onPress={() => navigation.navigate('CreateAccount')}>
+          <Text style={styles.signup}>Don't have an account?</Text>
+        </TouchableOpacity>
         <TouchableOpacity
           style={styles.signupButton}
           onPress={() => navigation.navigate('CreateAccount')}
         >
-          <Text style={styles.signupButtonText}>Create Account</Text>
+          <Text style={styles.signupButtonText}>Sign Up</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -175,6 +169,30 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     marginHorizontal: 10,
+  },
+  divider: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 15,
+  },
+  dividerLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: 'black',
+  },
+  dividerText: {
+    marginHorizontal: 10,
+    color: 'black',
+    fontSize: 14,
+  },
+  signup: {
+    color: '#666',
+    textAlign: 'center',
+    fontSize: 15,
+  },
+  signupHighlight: {
+    color: '#D64527',
+    fontWeight: '600',
   },
   signupText: {
     textAlign: "center",
