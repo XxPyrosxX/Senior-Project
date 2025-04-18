@@ -34,10 +34,6 @@ const SettingsPage = () => {
       onPress: () => navigation.navigate("AccountSettings"),
     },
     {
-      title: "Notifications",
-      icon: "https://img.icons8.com/ios-filled/50/bell.png",
-    },
-    {
       title: "About",
       icon: "https://img.icons8.com/ios-filled/50/help.png",
       onPress: () => navigation.navigate("About"),

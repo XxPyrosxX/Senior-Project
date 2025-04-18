@@ -121,11 +121,15 @@ const Pantry = () => {
         await scheduleExpirationNotifications(newItemObj);
       }
     } else if (editItem) {
-      // Update to include quantity when editing existing item
-      const updatedItem = { 
-        ...editItem, 
+      // fetch new image based on renamed title
+      const image = await fetchFoodImage(newItem.toLowerCase().trim());
+      const imageProp = typeof image === "number" ? image : { uri: image };
+      const updatedItem = {
+        ...editItem,
+        title: newItem,               // renamed title
         quantity: newQuantity,
-        expirationDate: expirationDate ? expirationDate.toISOString() : null 
+        image: imageProp,             // updated image
+        expirationDate: expirationDate ? expirationDate.toISOString() : null
       };
       
       const updatedItems = items.map(item =>
@@ -151,6 +155,7 @@ const Pantry = () => {
   const handleEditItem = (item) => {
     // Update to set quantity as well as expiration date
     setEditItem(item);
+    setNewItem(item.title);            // initialize name for editing
     setNewQuantity(item.quantity || '');
     setExpirationDate(item.expirationDate ? new Date(item.expirationDate) : new Date());
     setModalVisible(true);
@@ -271,8 +276,13 @@ const Pantry = () => {
             {editItem ? (
               // Edit mode: allow editing expiration date and quantity
               <>
-                <Text style={styles.modalLabel}>Edit Item: {editItem.title}</Text>
-                
+                <Text style={styles.modalLabel}>Item Name:</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter Item Name"
+                  value={newItem}
+                  onChangeText={setNewItem}
+                />
                 <Text style={styles.modalLabel}>Quantity:</Text>
                 <TextInput
                   style={styles.input}
